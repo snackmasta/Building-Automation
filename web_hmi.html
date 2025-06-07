@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Industrial Process Control HMI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #2C3E50;
+            color: white;
+            overflow-x: auto;
+        }
+
+        .header {
+            background-color: #34495E;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid #3498DB;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .header .subtitle {
+            font-size: 14px;
+            color: #BDC3C7;
+        }
+
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+            min-height: calc(100vh - 100px);
+        }
+
+        .panel {
+            background-color: #34495E;
+            border-radius: 8px;
+            padding: 20px;
+            border: 2px solid #3498DB;
+        }
+
+        .panel h2 {
+            color: #3498DB;
+            margin-bottom: 15px;
+            font-size: 18px;
+            border-bottom: 1px solid #3498DB;
+            padding-bottom: 5px;
+        }
+
+        /* Process Overview Panel */
+        .process-diagram {
+            position: relative;
+            height: 400px;
+            background-color: white;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .tank {
+            position: absolute;
+            top: 100px;
+            left: 150px;
+            width: 100px;
+            height: 120px;
+            border: 3px solid #2C3E50;
+            background-color: #3498DB;
+            border-radius: 5px;
+        }
+
+        .tank.empty {
+            background-color: #E74C3C;
+        }
+
+        .liquid-level {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 70%;
+            background-color: #2980B9;
+            transition: height 0.3s ease;
+        }
+
+        .heater {
+            position: absolute;
+            top: 170px;
+            left: 160px;
+            width: 80px;
+            height: 30px;
+            background-color: #BDC3C7;
+            border: 2px solid #2C3E50;
+            border-radius: 3px;
+        }
+
+        .heater.active {
+            background-color: #E74C3C;
+            box-shadow: 0 0 10px #E74C3C;
+        }
+
+        .pump {
+            position: absolute;
+            top: 180px;
+            left: 300px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 3px solid #2C3E50;
+            background-color: #BDC3C7;
+        }
+
+        .pump.active {
+            background-color: #27AE60;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .valve {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+        }
+
+        .valve.inlet {
+            top: 140px;
+            left: 100px;
+            border-bottom: 20px solid #E74C3C;
+        }
+
+        .valve.inlet.open {
+            border-bottom-color: #27AE60;
+        }
+
+        .valve.outlet {
+            top: 140px;
+            left: 280px;
+            border-bottom: 20px solid #E74C3C;
+        }
+
+        .valve.outlet.open {
+            border-bottom-color: #27AE60;
+        }
+
+        .pipe {
+            position: absolute;
+            background-color: #2C3E50;
+            z-index: -1;
+        }
+
+        .pipe.horizontal {
+            height: 4px;
+        }
+
+        .pipe.vertical {
+            width: 4px;
+        }
+
+        .sensor {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid #2C3E50;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+            color: #2C3E50;
+        }
+
+        .temp-sensor {
+            top: 80px;
+            left: 180px;
+        }
+
+        .pressure-sensor {
+            top: 80px;
+            left: 220px;
+        }
+
+        /* Control Panel */
+        .control-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-start {
+            background-color: #27AE60;
+            color: white;
+        }
+
+        .btn-start:hover {
+            background-color: #2ECC71;
+        }
+
+        .btn-stop {
+            background-color: #E74C3C;
+            color: white;
+        }
+
+        .btn-stop:hover {
+            background-color: #C0392B;
+        }
+
+        .btn-emergency {
+            grid-column: span 2;
+            background-color: #8E44AD;
+            color: white;
+            font-size: 18px;
+        }
+
+        .btn-emergency:hover {
+            background-color: #9B59B6;
+        }
+
+        .btn-emergency.active {
+            background-color: #C0392B;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        .setpoints {
+            margin-bottom: 20px;
+        }
+
+        .setpoint-group {
+            margin-bottom: 15px;
+        }
+
+        .setpoint-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .setpoint-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #BDC3C7;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+
+        .mode-selector {
+            margin-bottom: 20px;
+        }
+
+        .mode-selector input[type="radio"] {
+            margin-right: 8px;
+        }
+
+        .mode-selector label {
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        /* Status Display */
+        .status-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .status-item {
+            background-color: #2C3E50;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .status-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .status-label {
+            font-size: 12px;
+            color: #BDC3C7;
+        }
+
+        .status-temp .status-value {
+            color: #E74C3C;
+        }
+
+        .status-pressure .status-value {
+            color: #3498DB;
+        }
+
+        .alarms {
+            background-color: #2C3E50;
+            border-radius: 5px;
+            padding: 15px;
+            min-height: 150px;
+        }
+
+        .alarm-item {
+            background-color: #E74C3C;
+            padding: 8px;
+            margin-bottom: 8px;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+
+        .alarm-item.warning {
+            background-color: #F39C12;
+        }
+
+        .footer {
+            background-color: #34495E;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 2px solid #3498DB;
+        }
+
+        .system-status {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .system-status.running {
+            color: #27AE60;
+        }
+
+        .system-status.stopped {
+            color: #E74C3C;
+        }
+
+        .timestamp {
+            color: #BDC3C7;
+        }
+
+        @media (max-width: 1200px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Industrial Process Control System</h1>
+        <div class="subtitle">Web-based HMI Interface</div>
+    </div>
+
+    <div class="main-container">
+        <!-- Process Overview Panel -->
+        <div class="panel">
+            <h2>Process Overview</h2>
+            <div class="process-diagram">
+                <!-- Tank -->
+                <div class="tank" id="tank">
+                    <div class="liquid-level" id="liquidLevel"></div>
+                </div>
+                
+                <!-- Heater -->
+                <div class="heater" id="heater"></div>
+                
+                <!-- Pump -->
+                <div class="pump" id="pump"></div>
+                
+                <!-- Valves -->
+                <div class="valve inlet" id="valve1"></div>
+                <div class="valve outlet" id="valve2"></div>
+                
+                <!-- Pipes -->
+                <div class="pipe horizontal" style="top: 150px; left: 20px; width: 80px;"></div>
+                <div class="pipe horizontal" style="top: 150px; left: 130px; width: 20px;"></div>
+                <div class="pipe horizontal" style="top: 150px; left: 250px; width: 30px;"></div>
+                <div class="pipe horizontal" style="top: 150px; left: 320px; width: 50px;"></div>
+                <div class="pipe vertical" style="top: 150px; left: 370px; height: 50px;"></div>
+                <div class="pipe horizontal" style="top: 200px; left: 340px; width: 30px;"></div>
+                <div class="pipe vertical" style="top: 200px; left: 340px; height: 50px;"></div>
+                <div class="pipe horizontal" style="top: 250px; left: 340px; width: 60px;"></div>
+                
+                <!-- Sensors -->
+                <div class="sensor temp-sensor">T</div>
+                <div class="sensor pressure-sensor">P</div>
+                
+                <!-- Labels -->
+                <div style="position: absolute; top: 270px; left: 180px; color: #2C3E50; font-weight: bold;">TANK T-001</div>
+                <div style="position: absolute; top: 230px; left: 290px; color: #2C3E50; font-weight: bold;">PUMP P-001</div>
+                <div style="position: absolute; top: 175px; left: 85px; color: #2C3E50; font-size: 10px;">PV-001</div>
+                <div style="position: absolute; top: 175px; left: 255px; color: #2C3E50; font-size: 10px;">PV-002</div>
+                <div style="position: absolute; top: 55px; left: 170px; color: #2C3E50; font-size: 10px;">TT-001</div>
+                <div style="position: absolute; top: 55px; left: 210px; color: #2C3E50; font-size: 10px;">PT-001</div>
+            </div>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="panel">
+            <h2>Control Panel</h2>
+            
+            <div class="control-buttons">
+                <button class="btn btn-start" onclick="startSystem()">START</button>
+                <button class="btn btn-stop" onclick="stopSystem()">STOP</button>
+                <button class="btn btn-emergency" id="emergencyBtn" onclick="emergencyStop()">EMERGENCY STOP</button>
+            </div>
+
+            <div class="mode-selector">
+                <label><input type="radio" name="mode" value="auto" checked onchange="changeMode()"> AUTO</label>
+                <label><input type="radio" name="mode" value="manual" onchange="changeMode()"> MANUAL</label>
+            </div>
+
+            <div class="setpoints">
+                <div class="setpoint-group">
+                    <label>Temperature Setpoint (°C):</label>
+                    <input type="number" id="tempSetpoint" value="75" min="20" max="100" onchange="updateSetpoints()">
+                </div>
+                <div class="setpoint-group">
+                    <label>Pressure Setpoint (bar):</label>
+                    <input type="number" id="pressureSetpoint" value="3.0" min="0.5" max="8.0" step="0.1" onchange="updateSetpoints()">
+                </div>
+            </div>
+
+            <div id="manualControls" style="display: none;">
+                <h3>Manual Control</h3>
+                <label><input type="checkbox" id="pumpManual" onchange="manualControl()"> Pump</label><br>
+                <label><input type="checkbox" id="heaterManual" onchange="manualControl()"> Heater</label><br>
+                <label><input type="checkbox" id="valve1Manual" onchange="manualControl()"> Valve 1 (Inlet)</label><br>
+                <label><input type="checkbox" id="valve2Manual" onchange="manualControl()"> Valve 2 (Outlet)</label><br>
+            </div>
+        </div>
+
+        <!-- Status and Alarms Panel -->
+        <div class="panel">
+            <h2>Status & Monitoring</h2>
+            
+            <div class="status-grid">
+                <div class="status-item status-temp">
+                    <div class="status-value" id="tempValue">20.0</div>
+                    <div class="status-label">Temperature (°C)</div>
+                </div>
+                <div class="status-item status-pressure">
+                    <div class="status-value" id="pressureValue">1.0</div>
+                    <div class="status-label">Pressure (bar)</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-value" id="cycleCount">0</div>
+                    <div class="status-label">Cycle Count</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-value" id="runTime">00:00:00</div>
+                    <div class="status-label">Run Time</div>
+                </div>
+            </div>
+
+            <h3>Active Alarms</h3>
+            <div class="alarms" id="alarmsList">
+                <div style="color: #27AE60; text-align: center; padding: 20px;">No Active Alarms</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="system-status stopped" id="systemStatus">System: STOPPED</div>
+        <div class="timestamp" id="timestamp"></div>
+    </div>
+
+    <script>
+        // Process data simulation
+        let processData = {
+            temperature: 20.0,
+            pressure: 1.0,
+            level: true,
+            pumpStatus: false,
+            heaterStatus: false,
+            valve1Status: false,
+            valve2Status: false,
+            systemRunning: false,
+            emergencyStop: false,
+            cycleCount: 0,
+            setpointTemp: 75.0,
+            setpointPressure: 3.0,
+            autoMode: true,
+            startTime: null,
+            runTime: 0
+        };
+
+        let alarms = [];
+
+        function startSystem() {
+            if (!processData.emergencyStop) {
+                processData.systemRunning = true;
+                processData.startTime = new Date();
+                processData.cycleCount++;
+                updateDisplay();
+                alert('System started successfully!');
+            } else {
+                alert('Cannot start - Emergency stop active!');
+            }
+        }
+
+        function stopSystem() {
+            processData.systemRunning = false;
+            processData.startTime = null;
+            processData.runTime = 0;
+            updateDisplay();
+            alert('System stopped.');
+        }
+
+        function emergencyStop() {
+            processData.emergencyStop = !processData.emergencyStop;
+            processData.systemRunning = false;
+            
+            const btn = document.getElementById('emergencyBtn');
+            if (processData.emergencyStop) {
+                btn.textContent = 'RESET E-STOP';
+                btn.classList.add('active');
+                alert('EMERGENCY STOP ACTIVATED!');
+            } else {
+                btn.textContent = 'EMERGENCY STOP';
+                btn.classList.remove('active');
+                alert('Emergency stop reset.');
+            }
+            updateDisplay();
+        }
+
+        function changeMode() {
+            const mode = document.querySelector('input[name="mode"]:checked').value;
+            processData.autoMode = (mode === 'auto');
+            
+            const manualControls = document.getElementById('manualControls');
+            manualControls.style.display = processData.autoMode ? 'none' : 'block';
+        }
+
+        function updateSetpoints() {
+            processData.setpointTemp = parseFloat(document.getElementById('tempSetpoint').value);
+            processData.setpointPressure = parseFloat(document.getElementById('pressureSetpoint').value);
+        }
+
+        function manualControl() {
+            if (!processData.autoMode) {
+                processData.pumpStatus = document.getElementById('pumpManual').checked;
+                processData.heaterStatus = document.getElementById('heaterManual').checked;
+                processData.valve1Status = document.getElementById('valve1Manual').checked;
+                processData.valve2Status = document.getElementById('valve2Manual').checked;
+            }
+        }
+
+        function simulateProcess() {
+            if (processData.autoMode && processData.systemRunning) {
+                // Auto mode logic
+                if (processData.temperature < processData.setpointTemp - 2) {
+                    processData.heaterStatus = true;
+                } else if (processData.temperature > processData.setpointTemp + 2) {
+                    processData.heaterStatus = false;
+                }
+                
+                processData.pumpStatus = true;
+                processData.valve1Status = true;
+                
+                if (processData.temperature >= processData.setpointTemp) {
+                    processData.valve2Status = true;
+                }
+            } else if (!processData.systemRunning) {
+                // System stopped
+                processData.pumpStatus = false;
+                processData.heaterStatus = false;
+                processData.valve1Status = false;
+                processData.valve2Status = false;
+            }
+
+            // Simulate temperature changes
+            if (processData.heaterStatus) {
+                processData.temperature += 0.5;
+            } else {
+                if (processData.temperature > 20) {
+                    processData.temperature -= 0.3;
+                }
+            }
+
+            // Simulate pressure changes
+            if (processData.pumpStatus) {
+                if (processData.pressure < 4.0) {
+                    processData.pressure += 0.1;
+                }
+            } else {
+                if (processData.pressure > 0.5) {
+                    processData.pressure -= 0.05;
+                }
+            }
+
+            // Update run time
+            if (processData.systemRunning && processData.startTime) {
+                processData.runTime = Math.floor((new Date() - processData.startTime) / 1000);
+            }
+
+            checkAlarms();
+            updateDisplay();
+        }
+
+        function checkAlarms() {
+            alarms = [];
+            
+            if (processData.temperature > 90) {
+                alarms.push({ text: 'HIGH TEMPERATURE ALARM', level: 'alarm' });
+            }
+            
+            if (processData.pressure > 5.0) {
+                alarms.push({ text: 'HIGH PRESSURE ALARM', level: 'alarm' });
+            }
+            
+            if (processData.emergencyStop) {
+                alarms.push({ text: 'EMERGENCY STOP ACTIVE', level: 'alarm' });
+            }
+            
+            if (!processData.level && processData.systemRunning) {
+                alarms.push({ text: 'LOW LEVEL ALARM', level: 'warning' });
+            }
+        }
+
+        function updateDisplay() {
+            // Update process diagram
+            const tank = document.getElementById('tank');
+            const heater = document.getElementById('heater');
+            const pump = document.getElementById('pump');
+            const valve1 = document.getElementById('valve1');
+            const valve2 = document.getElementById('valve2');
+
+            tank.className = processData.level ? 'tank' : 'tank empty';
+            heater.className = processData.heaterStatus ? 'heater active' : 'heater';
+            pump.className = processData.pumpStatus ? 'pump active' : 'pump';
+            valve1.className = processData.valve1Status ? 'valve inlet open' : 'valve inlet';
+            valve2.className = processData.valve2Status ? 'valve outlet open' : 'valve outlet';
+
+            // Update status values
+            document.getElementById('tempValue').textContent = processData.temperature.toFixed(1);
+            document.getElementById('pressureValue').textContent = processData.pressure.toFixed(1);
+            document.getElementById('cycleCount').textContent = processData.cycleCount;
+
+            // Update run time
+            const hours = Math.floor(processData.runTime / 3600);
+            const minutes = Math.floor((processData.runTime % 3600) / 60);
+            const seconds = processData.runTime % 60;
+            document.getElementById('runTime').textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+            // Update system status
+            const statusElement = document.getElementById('systemStatus');
+            if (processData.systemRunning) {
+                statusElement.textContent = 'System: RUNNING';
+                statusElement.className = 'system-status running';
+            } else if (processData.emergencyStop) {
+                statusElement.textContent = 'System: E-STOP';
+                statusElement.className = 'system-status stopped';
+            } else {
+                statusElement.textContent = 'System: STOPPED';
+                statusElement.className = 'system-status stopped';
+            }
+
+            // Update alarms
+            const alarmsList = document.getElementById('alarmsList');
+            if (alarms.length === 0) {
+                alarmsList.innerHTML = '<div style="color: #27AE60; text-align: center; padding: 20px;">No Active Alarms</div>';
+            } else {
+                alarmsList.innerHTML = alarms.map(alarm => 
+                    `<div class="alarm-item ${alarm.level}">${alarm.text}</div>`
+                ).join('');
+            }
+
+            // Update manual controls
+            if (!processData.autoMode) {
+                document.getElementById('pumpManual').checked = processData.pumpStatus;
+                document.getElementById('heaterManual').checked = processData.heaterStatus;
+                document.getElementById('valve1Manual').checked = processData.valve1Status;
+                document.getElementById('valve2Manual').checked = processData.valve2Status;
+            }
+        }
+
+        function updateTimestamp() {
+            const now = new Date();
+            document.getElementById('timestamp').textContent = now.toLocaleString();
+        }
+
+        // Start simulation
+        setInterval(simulateProcess, 1000);
+        setInterval(updateTimestamp, 1000);
+
+        // Initial display update
+        updateDisplay();
+        updateTimestamp();
+    </script>
+</body>
+</html>
