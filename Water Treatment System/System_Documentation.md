@@ -271,6 +271,80 @@ Water Treatment System/
 
 ---
 
+## Control Logic Flowchart
+
+The system includes a comprehensive process control flowchart that visualizes the complete control logic and decision-making process:
+
+### Flowchart Structure
+
+#### 1. System Initialization
+- **START**: System power-up and initialization
+- **Safety Check**: Verify all emergency stops are clear
+- **System Ready**: Confirm all subsystems are operational
+
+#### 2. Decision Points and Safety Interlocks
+- **Emergency Stop Check**: Immediate shutdown if emergency stop activated
+- **Tank Level Validation**: Ensure adequate seawater supply (>20%)
+- **Pre-treatment Status**: Verify filters and chemical dosing systems
+- **Pressure Monitoring**: Validate feed pressure (2-4 bar) and RO pressure (50-60 bar)
+- **Quality Control**: Monitor permeate quality (<200 ppm TDS)
+- **Storage Management**: Prevent tank overflow (>90% level)
+
+#### 3. Process Control Sequences
+- **Intake Operations**: Seawater pumping and primary storage
+- **Pre-treatment Cycle**: Sand filtration, carbon filtration, antiscalant dosing
+- **RO Operations**: High-pressure pumping, membrane separation, concentrate disposal
+- **Post-treatment**: pH adjustment, chlorination, final storage
+- **Distribution Control**: Multi-pump sequencing, zone-based delivery
+
+#### 4. Alarm and Fault Handling
+- **Quality Alarms**: Immediate response to water quality deviations
+- **Pressure Alarms**: Automatic pressure regulation and protection
+- **Level Alarms**: Tank overflow and low-level protection
+- **Maintenance Alerts**: Filter replacement, membrane cleaning schedules
+
+#### 5. State Transitions
+The system operates through distinct states:
+- **IDLE**: System ready but not operating
+- **STARTUP**: Sequential startup of all subsystems
+- **RUNNING**: Normal production operation
+- **STANDBY**: Reduced operation during low demand
+- **CLEANING**: Automated membrane cleaning cycles
+- **MAINTENANCE**: Manual maintenance mode
+- **ALARM**: Fault condition requiring attention
+- **EMERGENCY**: Emergency shutdown state
+- **SHUTDOWN**: Orderly system shutdown
+
+### Control Logic Features
+
+#### Decision Tree Structure
+- **Diamond Shapes**: Decision points requiring YES/NO responses
+- **Rectangular Boxes**: Process steps and actions
+- **Oval Shapes**: Start/end points
+- **Color Coding**: Green (normal), Yellow (caution), Red (alarm), Blue (process)
+
+#### Safety Integration
+- **Multiple Safety Layers**: Emergency stops, pressure relief, quality monitoring
+- **Fail-Safe Design**: System defaults to safe state on any fault
+- **Operator Overrides**: Manual control points for maintenance
+- **Alarm Escalation**: Progressive alarm levels with automatic responses
+
+#### Process Optimization
+- **Energy Management**: Variable speed drives for efficiency
+- **Water Recovery**: Optimized RO recovery rate (45%)
+- **Pump Rotation**: Automatic rotation for even wear
+- **Predictive Maintenance**: Performance monitoring and scheduling
+
+### Using the Flowchart
+The flowchart serves multiple purposes:
+1. **Operator Training**: Visual guide for understanding system operation
+2. **Troubleshooting**: Quick reference for fault diagnosis
+3. **Maintenance Planning**: Identification of critical control points
+4. **System Design**: Documentation of control logic for modifications
+5. **Safety Analysis**: Verification of safety interlocks and procedures
+
+---
+
 ## Contact Information
 
 **System Designer**: Industrial Automation Team  

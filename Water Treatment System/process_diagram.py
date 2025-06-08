@@ -377,6 +377,332 @@ class ProcessDiagramGenerator:
         plt.tight_layout()
         return fig
     
+    def create_process_flowchart(self):
+        """Create detailed process flowchart with decision points and control logic"""
+        fig, ax = plt.subplots(1, 1, figsize=(20, 24))
+        ax.set_xlim(0, 20)
+        ax.set_ylim(0, 24)
+        ax.set_aspect('equal')
+        ax.axis('off')
+        
+        # Title
+        ax.text(10, 23.5, 'Water Treatment System - Process Control Flowchart', 
+                fontsize=20, fontweight='bold', ha='center', color=self.colors['text'])
+        
+        # Define flowchart elements
+        flowchart_elements = []
+        
+        # Start
+        start_oval = patches.Ellipse((10, 22.5), 3, 0.8, facecolor='lightgreen', 
+                                   edgecolor='black', linewidth=2)
+        ax.add_patch(start_oval)
+        ax.text(10, 22.5, 'SYSTEM START', ha='center', va='center', fontweight='bold', fontsize=12)
+        
+        # System initialization
+        init_rect = FancyBboxPatch((8.5, 21), 3, 0.8, boxstyle="round,pad=0.1", 
+                                 facecolor='lightblue', edgecolor='black', linewidth=2)
+        ax.add_patch(init_rect)
+        ax.text(10, 21.4, 'Initialize System\nCheck Safety Interlocks', ha='center', va='center', fontweight='bold')
+        
+        # Decision: Emergency stop?
+        self.draw_diamond(ax, 10, 19.8, 2.5, 1, 'Emergency\nStop?', 'yellow')
+        
+        # Emergency stop path
+        emergency_rect = FancyBboxPatch((15, 19.3), 3, 0.8, boxstyle="round,pad=0.1", 
+                                      facecolor='red', edgecolor='black', linewidth=2)
+        ax.add_patch(emergency_rect)
+        ax.text(16.5, 19.7, 'EMERGENCY STOP\nShutdown All Systems', ha='center', va='center', 
+                fontweight='bold', color='white')
+        
+        # Check tank levels
+        self.draw_diamond(ax, 10, 18.5, 3, 1, 'Seawater Tank\nLevel > 20%?', 'lightcyan')
+        
+        # Low level alarm
+        low_level_rect = FancyBboxPatch((1, 18), 3, 0.8, boxstyle="round,pad=0.1", 
+                                      facecolor='orange', edgecolor='black', linewidth=2)
+        ax.add_patch(low_level_rect)
+        ax.text(2.5, 18.4, 'LOW LEVEL ALARM\nWait for Fill', ha='center', va='center', fontweight='bold')
+        
+        # Start intake pump
+        intake_rect = FancyBboxPatch((8.5, 17), 3, 0.8, boxstyle="round,pad=0.1", 
+                                   facecolor='lightgreen', edgecolor='black', linewidth=2)
+        ax.add_patch(intake_rect)
+        ax.text(10, 17.4, 'Start Intake Pump\nFill Seawater Tank', ha='center', va='center', fontweight='bold')
+        
+        # Check pre-treatment system
+        self.draw_diamond(ax, 10, 15.8, 3, 1, 'Pre-treatment\nSystem Ready?', 'lightcyan')
+        
+        # Pre-treatment maintenance
+        pretreat_maint = FancyBboxPatch((15, 15.3), 3.5, 0.8, boxstyle="round,pad=0.1", 
+                                      facecolor='orange', edgecolor='black', linewidth=2)
+        ax.add_patch(pretreat_maint)
+        ax.text(16.75, 15.7, 'MAINTENANCE REQUIRED\nCheck Filters & Antiscalant', 
+                ha='center', va='center', fontweight='bold')
+        
+        # Start pre-treatment
+        pretreat_rect = FancyBboxPatch((8.5, 14.5), 3, 0.8, boxstyle="round,pad=0.1", 
+                                     facecolor='lightgreen', edgecolor='black', linewidth=2)
+        ax.add_patch(pretreat_rect)
+        ax.text(10, 14.9, 'Start Pre-treatment\nSand & Carbon Filters', ha='center', va='center', fontweight='bold')
+        
+        # Check feed pressure
+        self.draw_diamond(ax, 10, 13.3, 3, 1, 'Feed Pressure\n2-4 bar?', 'lightcyan')
+        
+        # Pressure control
+        pressure_rect = FancyBboxPatch((15, 12.8), 3.5, 0.8, boxstyle="round,pad=0.1", 
+                                     facecolor='yellow', edgecolor='black', linewidth=2)
+        ax.add_patch(pressure_rect)
+        ax.text(16.75, 13.2, 'ADJUST PRESSURE\nControl Feed Pump VFD', ha='center', va='center', fontweight='bold')
+        
+        # Start RO system
+        ro_rect = FancyBboxPatch((8.5, 12), 3, 0.8, boxstyle="round,pad=0.1", 
+                               facecolor='lightgreen', edgecolor='black', linewidth=2)
+        ax.add_patch(ro_rect)
+        ax.text(10, 12.4, 'Start RO System\nHigh Pressure Pump', ha='center', va='center', fontweight='bold')
+        
+        # RO pressure control
+        self.draw_diamond(ax, 10, 10.8, 3, 1, 'RO Pressure\n50-60 bar?', 'lightcyan')
+        
+        # Pressure adjustment
+        ro_pressure_rect = FancyBboxPatch((15, 10.3), 3.5, 0.8, boxstyle="round,pad=0.1", 
+                                        facecolor='yellow', edgecolor='black', linewidth=2)
+        ax.add_patch(ro_pressure_rect)
+        ax.text(16.75, 10.7, 'ADJUST RO PRESSURE\nPID Control HP Pump', ha='center', va='center', fontweight='bold')
+        
+        # Check permeate quality
+        self.draw_diamond(ax, 10, 9.3, 3, 1, 'Permeate Quality\n< 200 ppm?', 'lightcyan')
+        
+        # Quality control
+        quality_rect = FancyBboxPatch((1, 8.8), 3.5, 0.8, boxstyle="round,pad=0.1", 
+                                    facecolor='orange', edgecolor='black', linewidth=2)
+        ax.add_patch(quality_rect)
+        ax.text(2.75, 9.2, 'QUALITY ALARM\nCheck Membrane Integrity', ha='center', va='center', fontweight='bold')
+        
+        # Post-treatment
+        posttreat_rect = FancyBboxPatch((8.5, 8), 3, 0.8, boxstyle="round,pad=0.1", 
+                                      facecolor='lightgreen', edgecolor='black', linewidth=2)
+        ax.add_patch(posttreat_rect)
+        ax.text(10, 8.4, 'Start Post-treatment\npH & Chlorine Dosing', ha='center', va='center', fontweight='bold')
+        
+        # Check treated water tank
+        self.draw_diamond(ax, 10, 6.8, 3, 1, 'Treated Tank\nLevel < 90%?', 'lightcyan')
+        
+        # Tank full condition
+        tank_full_rect = FancyBboxPatch((15, 6.3), 3.5, 0.8, boxstyle="round,pad=0.1", 
+                                      facecolor='red', edgecolor='black', linewidth=2)
+        ax.add_patch(tank_full_rect)
+        ax.text(16.75, 6.7, 'TANK FULL\nStop RO Production', ha='center', va='center', 
+                fontweight='bold', color='white')
+        
+        # Distribution control
+        dist_rect = FancyBboxPatch((8.5, 5.5), 3, 0.8, boxstyle="round,pad=0.1", 
+                                 facecolor='lightgreen', edgecolor='black', linewidth=2)
+        ax.add_patch(dist_rect)
+        ax.text(10, 5.9, 'Control Distribution\nPump Sequencing', ha='center', va='center', fontweight='bold')
+        
+        # Check roof tank levels
+        self.draw_diamond(ax, 10, 4.3, 3, 1, 'Roof Tanks\nNeed Filling?', 'lightcyan')
+        
+        # Pump selection logic
+        pump_select_rect = FancyBboxPatch((8.5, 3), 3, 0.8, boxstyle="round,pad=0.1", 
+                                        facecolor='lightblue', edgecolor='black', linewidth=2)
+        ax.add_patch(pump_select_rect)
+        ax.text(10, 3.4, 'Select Distribution Pump\nBased on Zone Demand', ha='center', va='center', fontweight='bold')
+        
+        # Monitor operation
+        monitor_rect = FancyBboxPatch((8.5, 1.5), 3, 0.8, boxstyle="round,pad=0.1", 
+                                    facecolor='lightgreen', edgecolor='black', linewidth=2)
+        ax.add_patch(monitor_rect)
+        ax.text(10, 1.9, 'Monitor Operation\nLog Data & Alarms', ha='center', va='center', fontweight='bold')
+        
+        # Draw flowchart connections
+        self.draw_flowchart_connections(ax)
+        
+        # Add decision labels
+        self.add_decision_labels(ax)
+        
+        plt.tight_layout()
+        return fig
+    
+    def draw_diamond(self, ax, x, y, width, height, text, color):
+        """Draw a diamond shape for decision points"""
+        diamond = patches.Polygon([(x, y + height/2), (x + width/2, y), 
+                                 (x, y - height/2), (x - width/2, y)], 
+                                facecolor=color, edgecolor='black', linewidth=2)
+        ax.add_patch(diamond)
+        ax.text(x, y, text, ha='center', va='center', fontweight='bold', fontsize=10)
+    
+    def draw_flowchart_connections(self, ax):
+        """Draw all flowchart connection lines and arrows"""
+        # Main flow connections
+        connections = [
+            [(10, 22.1), (10, 21.8)],  # Start to Init
+            [(10, 20.6), (10, 20.3)],  # Init to Emergency check
+            [(10, 19.3), (10, 19)],    # Emergency to Tank check
+            [(10, 18), (10, 17.8)],    # Tank to Intake
+            [(10, 16.6), (10, 16.3)],  # Intake to Pre-treatment check
+            [(10, 15.3), (10, 15.3)],  # Pre-treatment check to start
+            [(10, 14.1), (10, 13.8)],  # Pre-treatment to Pressure check
+            [(10, 12.8), (10, 12.8)],  # Pressure check to RO
+            [(10, 11.6), (10, 11.3)],  # RO to RO pressure check
+            [(10, 10.3), (10, 9.8)],   # RO pressure to Quality check
+            [(10, 8.8), (10, 8.8)],    # Quality to Post-treatment
+            [(10, 7.6), (10, 7.3)],    # Post-treatment to Tank check
+            [(10, 6.3), (10, 6.3)],    # Tank check to Distribution
+            [(10, 5.1), (10, 4.8)],    # Distribution to Roof tanks
+            [(10, 3.8), (10, 3.8)],    # Roof tanks to Pump selection
+            [(10, 2.6), (10, 2.3)]     # Pump selection to Monitor
+        ]
+        
+        for start, end in connections:
+            ax.annotate('', xy=end, xytext=start, 
+                       arrowprops=dict(arrowstyle='->', lw=2, color='blue'))
+        
+        # Decision branch connections
+        decision_branches = [
+            # Emergency stop - YES
+            [(11.25, 19.8), (15, 19.7)],
+            # Tank level - NO
+            [(8.75, 18.5), (4, 18.4)],
+            # Pre-treatment - NO
+            [(11.5, 15.8), (15, 15.7)],
+            # Feed pressure - NO
+            [(11.5, 13.3), (15, 13.2)],
+            # RO pressure - NO
+            [(11.5, 10.8), (15, 10.7)],
+            # Quality - NO
+            [(8.5, 9.3), (4.5, 9.2)],
+            # Tank full - YES
+            [(11.5, 6.8), (15, 6.7)]
+        ]
+        
+        for start, end in decision_branches:
+            ax.annotate('', xy=end, xytext=start, 
+                       arrowprops=dict(arrowstyle='->', lw=2, color='red'))
+    
+    def add_decision_labels(self, ax):
+        """Add YES/NO labels to decision branches"""
+        # YES/NO labels for decisions
+        labels = [
+            (11.5, 20.1, 'YES', 'red'),
+            (10.3, 19.5, 'NO', 'green'),
+            (8.5, 18.8, 'NO', 'red'),
+            (10.3, 18.2, 'YES', 'green'),
+            (11.8, 16.1, 'NO', 'red'),
+            (10.3, 15.5, 'YES', 'green'),
+            (11.8, 13.6, 'NO', 'red'),
+            (10.3, 13, 'YES', 'green'),
+            (11.8, 11.1, 'NO', 'red'),
+            (10.3, 10.5, 'YES', 'green'),
+            (8.2, 9.6, 'NO', 'red'),
+            (10.3, 9, 'YES', 'green'),
+            (11.8, 7.1, 'YES', 'red'),
+            (10.3, 6.5, 'NO', 'green'),
+            (10.3, 4, 'YES', 'green')
+        ]
+        
+        for x, y, text, color in labels:
+            ax.text(x, y, text, fontsize=9, fontweight='bold', 
+                   color=color, ha='center', va='center',
+                   bbox=dict(boxstyle="round,pad=0.2", facecolor='white', edgecolor=color))
+    
+    def create_system_states_diagram(self):
+        """Create system states and transitions diagram"""
+        fig, ax = plt.subplots(1, 1, figsize=(16, 12))
+        ax.set_xlim(0, 16)
+        ax.set_ylim(0, 12)
+        ax.set_aspect('equal')
+        ax.axis('off')
+        
+        # Title
+        ax.text(8, 11.5, 'Water Treatment System - State Diagram', 
+                fontsize=18, fontweight='bold', ha='center')
+        
+        # Define states
+        states = [
+            (2, 9, 'IDLE', 'lightgray'),
+            (6, 9, 'STARTUP', 'lightblue'),
+            (10, 9, 'RUNNING', 'lightgreen'),
+            (14, 9, 'SHUTDOWN', 'orange'),
+            (2, 6, 'MAINTENANCE', 'yellow'),
+            (6, 6, 'ALARM', 'red'),
+            (10, 6, 'CLEANING', 'lightcyan'),
+            (14, 6, 'EMERGENCY', 'darkred'),
+            (8, 3, 'STANDBY', 'lightpink')
+        ]
+        
+        # Draw states
+        for x, y, label, color in states:
+            state_circle = Circle((x, y), 1, facecolor=color, edgecolor='black', linewidth=2)
+            ax.add_patch(state_circle)
+            text_color = 'white' if color in ['red', 'darkred'] else 'black'
+            ax.text(x, y, label, ha='center', va='center', fontweight='bold', color=text_color)
+        
+        # Define transitions
+        transitions = [
+            # From IDLE
+            [(2, 9), (6, 9), 'Start Command'],
+            [(2, 9), (2, 6), 'Maintenance Mode'],
+            
+            # From STARTUP
+            [(6, 9), (10, 9), 'All Systems OK'],
+            [(6, 9), (6, 6), 'Startup Failure'],
+            [(6, 9), (14, 6), 'Emergency Stop'],
+            
+            # From RUNNING
+            [(10, 9), (14, 9), 'Stop Command'],
+            [(10, 9), (6, 6), 'Process Alarm'],
+            [(10, 9), (10, 6), 'Cleaning Cycle'],
+            [(10, 9), (14, 6), 'Emergency Stop'],
+            [(10, 9), (8, 3), 'Low Demand'],
+            
+            # From SHUTDOWN
+            [(14, 9), (2, 9), 'Shutdown Complete'],
+            
+            # From MAINTENANCE
+            [(2, 6), (2, 9), 'Maintenance Complete'],
+            
+            # From ALARM
+            [(6, 6), (10, 9), 'Alarm Reset'],
+            [(6, 6), (14, 9), 'Manual Shutdown'],
+            [(6, 6), (14, 6), 'Critical Alarm'],
+            
+            # From CLEANING
+            [(10, 6), (10, 9), 'Cleaning Complete'],
+            
+            # From EMERGENCY
+            [(14, 6), (2, 9), 'Emergency Reset'],
+            
+            # From STANDBY
+            [(8, 3), (10, 9), 'Demand Increase']
+        ]
+        
+        # Draw transitions
+        for start, end, label in transitions:
+            # Calculate arrow position
+            dx = end[0] - start[0]
+            dy = end[1] - start[1]
+            length = np.sqrt(dx**2 + dy**2)
+            
+            # Normalize and offset from circle edge
+            offset = 1.1
+            start_x = start[0] + (dx/length) * offset
+            start_y = start[1] + (dy/length) * offset
+            end_x = end[0] - (dx/length) * offset
+            end_y = end[1] - (dy/length) * offset
+            
+            ax.annotate('', xy=(end_x, end_y), xytext=(start_x, start_y),
+                       arrowprops=dict(arrowstyle='->', lw=1.5, color='blue'))
+            
+            # Add transition label
+            mid_x = (start_x + end_x) / 2
+            mid_y = (start_y + end_y) / 2
+            ax.text(mid_x, mid_y, label, fontsize=8, ha='center', va='bottom',
+                   bbox=dict(boxstyle="round,pad=0.2", facecolor='white', alpha=0.8))
+        
+        plt.tight_layout()
+        return fig
+
     def generate_all_diagrams(self, output_dir=""):
         """Generate all diagrams and save as PNG and PDF"""
         if output_dir and not os.path.exists(output_dir):
@@ -412,6 +738,26 @@ class ProcessDiagramGenerator:
                     facecolor='white', edgecolor='none')
         print(f"Saved: {png_path3}")
         
+        # Create process control flowchart
+        print("Generating process control flowchart...")
+        fig4 = self.create_process_flowchart()
+        
+        # Save as PNG
+        png_path4 = os.path.join(output_dir, "process_control_flowchart.png")
+        fig4.savefig(png_path4, dpi=300, bbox_inches='tight', 
+                    facecolor='white', edgecolor='none')
+        print(f"Saved: {png_path4}")
+        
+        # Create system states diagram
+        print("Generating system states diagram...")
+        fig5 = self.create_system_states_diagram()
+        
+        # Save as PNG
+        png_path5 = os.path.join(output_dir, "system_states_diagram.png")
+        fig5.savefig(png_path5, dpi=300, bbox_inches='tight', 
+                    facecolor='white', edgecolor='none')
+        print(f"Saved: {png_path5}")
+        
         # Create combined PDF
         print("Creating combined PDF...")
         pdf_path = os.path.join(output_dir, "water_treatment_diagrams.pdf")
@@ -419,12 +765,14 @@ class ProcessDiagramGenerator:
             pdf.savefig(fig1, bbox_inches='tight', facecolor='white')
             pdf.savefig(fig2, bbox_inches='tight', facecolor='white')
             pdf.savefig(fig3, bbox_inches='tight', facecolor='white')
+            pdf.savefig(fig4, bbox_inches='tight', facecolor='white')
+            pdf.savefig(fig5, bbox_inches='tight', facecolor='white')
         print(f"Saved: {pdf_path}")
         
         plt.close('all')
         print("All diagrams generated successfully!")
         
-        return [png_path1, png_path2, png_path3, pdf_path]
+        return [png_path1, png_path2, png_path3, png_path4, png_path5, pdf_path]
 
 def main():
     """Main function to generate all process diagrams"""
