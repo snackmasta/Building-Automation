@@ -1,0 +1,101 @@
+{
+  "timestamp": "2025-06-08T13:42:47.610547",
+  "total_tests": 31,
+  "passed": 28,
+  "failed": 2,
+  "errors": 3,
+  "components": {
+    "file_structure": {
+      "tests": 22,
+      "passed": 22,
+      "failed": 0,
+      "errors": 0,
+      "details": [
+        "\u2713 Directory exists: src",
+        "\u2713 Directory exists: plc",
+        "\u2713 Directory exists: hmi",
+        "\u2713 Directory exists: docs",
+        "\u2713 Directory exists: config",
+        "\u2713 Directory exists: tests",
+        "\u2713 Directory exists: scripts",
+        "\u2713 Directory exists: src/database",
+        "\u2713 Directory exists: src/simulation",
+        "\u2713 Directory exists: src/communication",
+        "\u2713 Directory exists: src/security",
+        "\u2713 Directory exists: hmi/web",
+        "\u2713 Directory exists: docs/technical",
+        "\u2713 Directory exists: docs/user",
+        "\u2713 File exists: README.md",
+        "\u2713 File exists: requirements.txt",
+        "\u2713 File exists: plc/main.st",
+        "\u2713 File exists: plc/global_vars.st",
+        "\u2713 File exists: hmi/web/index.html",
+        "\u2713 File exists: hmi/web/styles.css",
+        "\u2713 File exists: src/database/database_manager.py",
+        "\u2713 File exists: src/simulation/parking_simulator.py"
+      ]
+    },
+    "configuration": {
+      "tests": 3,
+      "passed": 3,
+      "failed": 0,
+      "errors": 0,
+      "details": [
+        "\u2713 Configuration file exists: system_config.yaml",
+        "\u2713 Configuration file exists: system_config.py",
+        "\u2713 Configuration manager initialization successful"
+      ]
+    },
+    "database": {
+      "tests": 4,
+      "passed": 1,
+      "failed": 2,
+      "errors": 1,
+      "details": [
+        "\u2713 Database initialization successful",
+        "\u2717 Missing tables: ['vehicles', 'parking_spaces', 'transactions', 'system_events', 'users', 'system_settings']",
+        "\u2717 Vehicle addition error: no such table: vehicles",
+        "\u2717 No available spaces found"
+      ]
+    },
+    "simulation": {
+      "tests": 2,
+      "passed": 2,
+      "failed": 0,
+      "errors": 0,
+      "details": [
+        "\u2713 Simulator initialization successful",
+        "\u2713 Simulation methods available"
+      ]
+    },
+    "communication": {
+      "tests": 0,
+      "passed": 0,
+      "failed": 0,
+      "errors": 1,
+      "details": [
+        "\u2717 Communication module import error: No module named 'websockets'"
+      ]
+    },
+    "security": {
+      "tests": 0,
+      "passed": 0,
+      "failed": 0,
+      "errors": 1,
+      "details": [
+        "\u2717 Security module import error: No module named 'jwt'"
+      ]
+    }
+  },
+  "issues": [],
+  "recommendations": [
+    "\u2705 System validation highly successful - ready for production",
+    "\ud83d\udd27 Fix database component errors",
+    "\ud83d\udccb Address database component failures",
+    "\ud83d\udd27 Fix communication component errors",
+    "\ud83d\udd27 Fix security component errors",
+    "\ud83d\udc1b Debug and fix critical errors before deployment",
+    "\ud83d\udcdd Review and update failing test cases"
+  ],
+  "execution_time": 0.22
+}

@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Parking Vending System - Web HMI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <h1>🚗 Car Parking Vending System</h1>
+                <span class="subtitle">Industrial Automation Control Interface</span>
+            </div>
+            <div class="status-indicators">
+                <div class="indicator" id="systemStatus">
+                    <span class="indicator-light" id="systemLight"></span>
+                    <span>System</span>
+                </div>
+                <div class="indicator" id="safetyStatus">
+                    <span class="indicator-light" id="safetyLight"></span>
+                    <span>Safety</span>
+                </div>
+                <div class="indicator" id="networkStatus">
+                    <span class="indicator-light" id="networkLight"></span>
+                    <span>Network</span>
+                </div>
+                <div class="timestamp" id="currentTime"></div>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="tab-navigation">
+            <button class="tab-button active" data-tab="overview">System Overview</button>
+            <button class="tab-button" data-tab="parking">Parking Grid</button>
+            <button class="tab-button" data-tab="operations">Operations</button>
+            <button class="tab-button" data-tab="elevators">Elevators</button>
+            <button class="tab-button" data-tab="analytics">Analytics</button>
+            <button class="tab-button" data-tab="maintenance">Maintenance</button>
+            <button class="tab-button" data-tab="logs">System Logs</button>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- System Overview Tab -->
+            <div class="tab-content active" id="overview">
+                <div class="dashboard-grid">
+                    <div class="card summary-card">
+                        <h3>System Summary</h3>
+                        <div class="summary-stats">
+                            <div class="stat">
+                                <span class="stat-value" id="totalSpaces">300</span>
+                                <span class="stat-label">Total Spaces</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value" id="occupiedSpaces">0</span>
+                                <span class="stat-label">Occupied</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value" id="availableSpaces">300</span>
+                                <span class="stat-label">Available</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value" id="occupancyRate">0%</span>
+                                <span class="stat-label">Occupancy</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card chart-card">
+                        <h3>Real-time Occupancy</h3>
+                        <canvas id="occupancyChart"></canvas>
+                    </div>
+
+                    <div class="card system-status-card">
+                        <h3>System Status</h3>
+                        <div class="status-grid">
+                            <div class="status-item">
+                                <span class="status-label">PLC Status:</span>
+                                <span class="status-value" id="plcStatus">Online</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-label">Payment System:</span>
+                                <span class="status-value" id="paymentStatus">Online</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-label">Elevator 1:</span>
+                                <span class="status-value" id="elevator1Status">Ready</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-label">Elevator 2:</span>
+                                <span class="status-value" id="elevator2Status">Ready</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-label">Elevator 3:</span>
+                                <span class="status-value" id="elevator3Status">Ready</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-label">Safety System:</span>
+                                <span class="status-value" id="safetySystemStatus">OK</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card revenue-card">
+                        <h3>Today's Revenue</h3>
+                        <div class="revenue-stats">
+                            <div class="revenue-amount" id="todayRevenue">$0.00</div>
+                            <div class="revenue-details">
+                                <div>Transactions: <span id="todayTransactions">0</span></div>
+                                <div>Avg. Duration: <span id="avgDuration">0h 0m</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Parking Grid Tab -->
+            <div class="tab-content" id="parking">
+                <div class="parking-controls">
+                    <div class="level-selector">
+                        <label for="levelSelect">Level:</label>
+                        <select id="levelSelect">
+                            <option value="all">All Levels</option>
+                            <option value="1">Level 1</option>
+                            <option value="2">Level 2</option>
+                            <option value="3">Level 3</option>
+                            <option value="4">Level 4</option>
+                            <option value="5">Level 5</option>
+                            <option value="6">Level 6</option>
+                            <option value="7">Level 7</option>
+                            <option value="8">Level 8</option>
+                            <option value="9">Level 9</option>
+                            <option value="10">Level 10</option>
+                            <option value="11">Level 11</option>
+                            <option value="12">Level 12</option>
+                            <option value="13">Level 13</option>
+                            <option value="14">Level 14</option>
+                            <option value="15">Level 15</option>
+                        </select>
+                    </div>
+                    <div class="view-controls">
+                        <button id="gridViewBtn" class="active">Grid View</button>
+                        <button id="3dViewBtn">3D View</button>
+                    </div>
+                    <div class="legend">
+                        <div class="legend-item">
+                            <span class="space-indicator available"></span>
+                            <span>Available</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="space-indicator occupied"></span>
+                            <span>Occupied</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="space-indicator reserved"></span>
+                            <span>Reserved</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="space-indicator maintenance"></span>
+                            <span>Maintenance</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="parking-display">
+                    <div id="parkingGrid" class="parking-grid"></div>
+                    <div id="parking3D" class="parking-3d" style="display: none;"></div>
+                </div>
+            </div>
+
+            <!-- Operations Tab -->
+            <div class="tab-content" id="operations">
+                <div class="operations-grid">
+                    <div class="card manual-controls">
+                        <h3>Manual Controls</h3>
+                        <div class="control-section">
+                            <h4>System Control</h4>
+                            <button class="control-btn start" id="systemStart">Start System</button>
+                            <button class="control-btn stop" id="systemStop">Stop System</button>
+                            <button class="control-btn emergency" id="emergencyStop">Emergency Stop</button>
+                            <button class="control-btn reset" id="systemReset">Reset</button>
+                        </div>
+                        <div class="control-section">
+                            <h4>Elevator Control</h4>
+                            <div class="elevator-controls">
+                                <div class="elevator-control">
+                                    <span>Elevator 1:</span>
+                                    <button class="control-btn" onclick="controlElevator(1, 'up')">Up</button>
+                                    <button class="control-btn" onclick="controlElevator(1, 'down')">Down</button>
+                                    <button class="control-btn" onclick="controlElevator(1, 'stop')">Stop</button>
+                                </div>
+                                <div class="elevator-control">
+                                    <span>Elevator 2:</span>
+                                    <button class="control-btn" onclick="controlElevator(2, 'up')">Up</button>
+                                    <button class="control-btn" onclick="controlElevator(2, 'down')">Down</button>
+                                    <button class="control-btn" onclick="controlElevator(2, 'stop')">Stop</button>
+                                </div>
+                                <div class="elevator-control">
+                                    <span>Elevator 3:</span>
+                                    <button class="control-btn" onclick="controlElevator(3, 'up')">Up</button>
+                                    <button class="control-btn" onclick="controlElevator(3, 'down')">Down</button>
+                                    <button class="control-btn" onclick="controlElevator(3, 'stop')">Stop</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card current-operations">
+                        <h3>Current Operations</h3>
+                        <div class="operations-list" id="currentOperations">
+                            <!-- Dynamic content -->
+                        </div>
+                    </div>
+
+                    <div class="card queue-status">
+                        <h3>Operation Queue</h3>
+                        <div class="queue-stats">
+                            <div class="queue-item">
+                                <span>Vehicles Waiting Entry:</span>
+                                <span id="entryQueue">0</span>
+                            </div>
+                            <div class="queue-item">
+                                <span>Vehicles Waiting Exit:</span>
+                                <span id="exitQueue">0</span>
+                            </div>
+                            <div class="queue-item">
+                                <span>Average Wait Time:</span>
+                                <span id="avgWaitTime">0 min</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Elevators Tab -->
+            <div class="tab-content" id="elevators">
+                <div class="elevators-grid">
+                    <div class="card elevator-status" data-elevator="1">
+                        <h3>Elevator 1</h3>
+                        <div class="elevator-display">
+                            <div class="elevator-shaft">
+                                <div class="elevator-car" id="elevator1Car"></div>
+                                <div class="level-markers">
+                                    <!-- Dynamic level markers -->
+                                </div>
+                            </div>
+                            <div class="elevator-info">
+                                <div class="info-item">
+                                    <span>Current Level:</span>
+                                    <span id="elevator1Level">1</span>
+                                </div>
+                                <div class="info-item">
+                                    <span>Status:</span>
+                                    <span id="elevator1StatusText">Idle</span>
+                                </div>
+                                <div class="info-item">
+                                    <span>Load:</span>
+                                    <span id="elevator1Load">0 kg</span>
+                                </div>
+                                <div class="info-item">
+                                    <span>Speed:</span>
+                                    <span id="elevator1Speed">0 m/s</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card elevator-status" data-elevator="2">
+                        <h3>Elevator 2</h3>
+                        <div class="elevator-display">
+                            <div class="elevator-shaft">
+                                <div class="elevator-car" id="elevator2Car"></div>
+                                <div class="level-markers">
+                                    <!-- Dynamic level markers -->
+                                </div>
+                            </div>
+                            <div class="elevator-info">
+                                <div class="info-item">
+                                    <span>Current Level:</span>
+                                    <span id="elevator2Level">1</span>
+                                </div>
+                                <div class="info-item">
+                                    <span>Status:</span>
+                                    <span id="elevator2StatusText">Idle</span>
+                                </div>
+                                <div class="info-item">
+                                    <span>Load:</span>
+                                    <span id="elevator2Load">0 kg</span>
+                                </div>
+                                <div class="info-item">
+                                    <span>Speed:</span>
+                                    <span id="elevator2Speed">0 m/s</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card elevator-status" data-elevator="3">
+                        <h3>Elevator 3</h3>
+                        <div class="elevator-display">
+                            <div class="elevator-shaft">
+                                <div class="elevator-car" id="elevator3Car"></div>
+                                <div class="level-markers">
+                                    <!-- Dynamic level markers -->
+                                </div>
+                            </div>
+                            <div class="elevator-info">
+                                <div class="info-item">
+                                    <span>Current Level:</span>
+                                    <span id="elevator3Level">1</span>
+                                </div>
+                                <div class="info-item">
+                                    <span>Status:</span>
+                                    <span id="elevator3StatusText">Idle</span>
+                                </div>
+                                <div class="info-item">
+                                    <span>Load:</span>
+                                    <span id="elevator3Load">0 kg</span>
+                                </div>
+                                <div class="info-item">
+                                    <span>Speed:</span>
+                                    <span id="elevator3Speed">0 m/s</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card elevator-performance">
+                        <h3>Performance Metrics</h3>
+                        <canvas id="elevatorPerformanceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Tab -->
+            <div class="tab-content" id="analytics">
+                <div class="analytics-grid">
+                    <div class="card revenue-chart">
+                        <h3>Revenue Trends</h3>
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                    <div class="card occupancy-chart">
+                        <h3>Occupancy Patterns</h3>
+                        <canvas id="occupancyPatternChart"></canvas>
+                    </div>
+                    <div class="card performance-metrics">
+                        <h3>Performance Metrics</h3>
+                        <div class="metrics-grid">
+                            <div class="metric">
+                                <span class="metric-value" id="throughputMetric">0</span>
+                                <span class="metric-label">Vehicles/Hour</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value" id="efficiencyMetric">0%</span>
+                                <span class="metric-label">System Efficiency</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value" id="uptimeMetric">99.9%</span>
+                                <span class="metric-label">System Uptime</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value" id="avgCycleTime">2.5</span>
+                                <span class="metric-label">Avg Cycle Time (min)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card usage-heatmap">
+                        <h3>Usage Heatmap</h3>
+                        <div id="usageHeatmap"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Maintenance Tab -->
+            <div class="tab-content" id="maintenance">
+                <div class="maintenance-grid">
+                    <div class="card maintenance-schedule">
+                        <h3>Maintenance Schedule</h3>
+                        <div class="maintenance-list" id="maintenanceList">
+                            <!-- Dynamic content -->
+                        </div>
+                    </div>
+                    <div class="card system-health">
+                        <h3>System Health</h3>
+                        <div class="health-indicators">
+                            <div class="health-item">
+                                <span>Motor Health:</span>
+                                <div class="health-bar">
+                                    <div class="health-fill" style="width: 95%"></div>
+                                </div>
+                                <span>95%</span>
+                            </div>
+                            <div class="health-item">
+                                <span>Hydraulic System:</span>
+                                <div class="health-bar">
+                                    <div class="health-fill" style="width: 88%"></div>
+                                </div>
+                                <span>88%</span>
+                            </div>
+                            <div class="health-item">
+                                <span>Elevator 1:</span>
+                                <div class="health-bar">
+                                    <div class="health-fill" style="width: 92%"></div>
+                                </div>
+                                <span>92%</span>
+                            </div>
+                            <div class="health-item">
+                                <span>Elevator 2:</span>
+                                <div class="health-bar">
+                                    <div class="health-fill" style="width: 90%"></div>
+                                </div>
+                                <span>90%</span>
+                            </div>
+                            <div class="health-item">
+                                <span>Elevator 3:</span>
+                                <div class="health-bar">
+                                    <div class="health-fill" style="width: 94%"></div>
+                                </div>
+                                <span>94%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card diagnostics">
+                        <h3>System Diagnostics</h3>
+                        <button class="diagnostic-btn" onclick="runDiagnostics('motors')">Test Motors</button>
+                        <button class="diagnostic-btn" onclick="runDiagnostics('elevators')">Test Elevators</button>
+                        <button class="diagnostic-btn" onclick="runDiagnostics('safety')">Test Safety Systems</button>
+                        <button class="diagnostic-btn" onclick="runDiagnostics('communication')">Test Communication</button>
+                        <div class="diagnostic-results" id="diagnosticResults"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Logs Tab -->
+            <div class="tab-content" id="logs">
+                <div class="logs-container">
+                    <div class="logs-controls">
+                        <select id="logLevel">
+                            <option value="all">All Levels</option>
+                            <option value="info">Info</option>
+                            <option value="warning">Warning</option>
+                            <option value="error">Error</option>
+                            <option value="critical">Critical</option>
+                        </select>
+                        <button id="clearLogs">Clear Logs</button>
+                        <button id="exportLogs">Export Logs</button>
+                        <input type="text" id="logSearch" placeholder="Search logs...">
+                    </div>
+                    <div class="logs-display" id="logsDisplay">
+                        <!-- Dynamic log entries -->
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Emergency Modal -->
+        <div id="emergencyModal" class="modal">
+            <div class="modal-content emergency">
+                <h2>⚠️ EMERGENCY ALERT</h2>
+                <p id="emergencyMessage"></p>
+                <div class="modal-actions">
+                    <button class="btn-emergency-ack" onclick="acknowledgeEmergency()">Acknowledge</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="websocket.js"></script>
+    <script src="charts.js"></script>
+    <script src="3d-view.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

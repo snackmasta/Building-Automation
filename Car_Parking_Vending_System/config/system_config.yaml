@@ -1,0 +1,129 @@
+# System Configuration File for Automated Car Parking System
+# YAML format for easy reading and editing
+
+system_name: "Automated Car Parking System"
+version: "1.0.0"
+timezone: "UTC"
+language: "en"
+
+# Database Configuration
+database:
+  path: "parking_system.db"
+  max_connections: 10
+  backup_enabled: true
+  backup_interval_hours: 24
+  backup_directory: "backups"
+
+# PLC Configuration
+plc:
+  modbus_host: "192.168.1.100"
+  modbus_port: 502
+  modbus_unit_id: 1
+  connection_timeout: 10
+  read_timeout: 5
+  retry_attempts: 3
+
+# Elevator Configuration
+elevator:
+  count: 3
+  max_speed: 2.0  # m/s
+  acceleration: 0.5  # m/s²
+  max_load: 2000.0  # kg
+  level_height: 3.0  # meters
+  maintenance_interval_hours: 168  # 1 week
+
+# Parking Configuration
+parking:
+  total_levels: 15
+  spaces_per_level: 20
+  total_spaces: 300
+  max_parking_hours: 24
+  grace_period_minutes: 15
+  
+  # Space dimensions by type
+  space_dimensions:
+    standard:
+      length: 5.0
+      width: 2.5
+      height: 2.2
+    compact:
+      length: 4.5
+      width: 2.0
+      height: 2.0
+    large:
+      length: 6.0
+      width: 3.0
+      height: 2.5
+  
+  # Parking rates by vehicle type (per hour)
+  rates:
+    car: 3.0
+    suv: 4.0
+    truck: 6.0
+    motorcycle: 2.0
+
+# Payment Configuration
+payment:
+  accepted_methods:
+    - "cash"
+    - "credit_card"
+    - "debit_card"
+    - "mobile_pay"
+    - "rfid_card"
+  
+  cash_enabled: true
+  card_enabled: true
+  mobile_pay_enabled: true
+  rfid_enabled: true
+  tax_rate: 0.08
+  currency: "USD"
+  
+  # Discount rates
+  discount_rates:
+    senior: 0.10
+    student: 0.15
+    employee: 0.20
+    vip: 0.25
+
+# Safety Configuration
+safety:
+  emergency_contact: "911"
+  fire_detection_enabled: true
+  gas_detection_enabled: true
+  earthquake_detection_enabled: true
+  emergency_lighting_enabled: true
+  evacuation_time_limit: 300  # seconds
+  safety_check_interval: 60   # seconds
+
+# Communication Configuration
+communication:
+  websocket_host: "localhost"
+  websocket_port: 8765
+  tcp_host: "localhost"
+  tcp_port: 9001
+  opcua_endpoint: "opc.tcp://localhost:4840"
+  max_message_size: 65536
+  heartbeat_interval: 30
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  file_enabled: true
+  console_enabled: true
+  log_directory: "logs"
+  max_file_size: 10485760  # 10MB
+  backup_count: 5
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+# Simulation Configuration
+simulation:
+  enabled: false
+  entry_rate: 5.0  # vehicles per hour
+  exit_rate: 3.0   # vehicles per hour
+  peak_multiplier: 3.0
+  realistic_names: true
+  
+  # Peak hours (start, end)
+  peak_hours:
+    - [7, 9]   # Morning rush
+    - [17, 19] # Evening rush

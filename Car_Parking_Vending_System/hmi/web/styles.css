@@ -1,0 +1,868 @@
+/* Car Parking Vending System - Web HMI Styles */
+
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --success-color: #27ae60;
+    --warning-color: #f39c12;
+    --danger-color: #e74c3c;
+    --background-color: #ecf0f1;
+    --card-background: #ffffff;
+    --text-color: #2c3e50;
+    --border-color: #bdc3c7;
+    --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --border-radius: 8px;
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Header Styles */
+.header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow);
+}
+
+.logo h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.subtitle {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.status-indicators {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.indicator-light {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--success-color);
+    box-shadow: 0 0 10px rgba(39, 174, 96, 0.5);
+    animation: pulse 2s infinite;
+}
+
+.indicator-light.warning {
+    background-color: var(--warning-color);
+    box-shadow: 0 0 10px rgba(243, 156, 18, 0.5);
+}
+
+.indicator-light.danger {
+    background-color: var(--danger-color);
+    box-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.timestamp {
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+}
+
+/* Navigation Tabs */
+.tab-navigation {
+    background-color: white;
+    padding: 0 2rem;
+    display: flex;
+    gap: 1px;
+    box-shadow: var(--shadow);
+    overflow-x: auto;
+}
+
+.tab-button {
+    padding: 1rem 1.5rem;
+    border: none;
+    background-color: #f8f9fa;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: var(--transition);
+    white-space: nowrap;
+    position: relative;
+}
+
+.tab-button:hover {
+    background-color: #e9ecef;
+}
+
+.tab-button.active {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.tab-button.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: var(--success-color);
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Card Styles */
+.card {
+    background-color: var(--card-background);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+}
+
+.card h3 {
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--secondary-color);
+    padding-bottom: 0.5rem;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+/* Summary Card */
+.summary-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.stat {
+    text-align: center;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: var(--border-radius);
+}
+
+.stat-value {
+    display: block;
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--secondary-color);
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+/* Chart Card */
+.chart-card canvas {
+    max-height: 300px;
+}
+
+/* Status Grid */
+.status-grid {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.status-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+}
+
+.status-value {
+    font-weight: bold;
+}
+
+.status-value.online {
+    color: var(--success-color);
+}
+
+.status-value.offline {
+    color: var(--danger-color);
+}
+
+.status-value.warning {
+    color: var(--warning-color);
+}
+
+/* Revenue Card */
+.revenue-amount {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--success-color);
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.revenue-details {
+    display: flex;
+    justify-content: space-around;
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+/* Parking Controls */
+.parking-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.level-selector select {
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+.view-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.view-controls button {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--secondary-color);
+    background-color: white;
+    color: var(--secondary-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.view-controls button.active,
+.view-controls button:hover {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.legend {
+    display: flex;
+    gap: 1rem;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.space-indicator {
+    width: 20px;
+    height: 15px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+}
+
+.space-indicator.available {
+    background-color: var(--success-color);
+}
+
+.space-indicator.occupied {
+    background-color: var(--danger-color);
+}
+
+.space-indicator.reserved {
+    background-color: var(--warning-color);
+}
+
+.space-indicator.maintenance {
+    background-color: #6c757d;
+}
+
+/* Parking Grid */
+.parking-grid {
+    display: grid;
+    grid-template-columns: repeat(20, 1fr);
+    gap: 2px;
+    padding: 1rem;
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.parking-space {
+    aspect-ratio: 1;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.parking-space:hover {
+    transform: scale(1.1);
+    z-index: 10;
+}
+
+.parking-space.available {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.parking-space.occupied {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.parking-space.reserved {
+    background-color: var(--warning-color);
+    color: white;
+}
+
+.parking-space.maintenance {
+    background-color: #6c757d;
+    color: white;
+}
+
+/* 3D View */
+.parking-3d {
+    height: 500px;
+    background-color: #1a1a1a;
+    border-radius: var(--border-radius);
+}
+
+/* Operations Grid */
+.operations-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+/* Manual Controls */
+.control-section {
+    margin-bottom: 2rem;
+}
+
+.control-section h4 {
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.control-btn {
+    padding: 0.75rem 1.5rem;
+    margin: 0.25rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: var(--transition);
+}
+
+.control-btn.start {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.control-btn.stop {
+    background-color: var(--warning-color);
+    color: white;
+}
+
+.control-btn.emergency {
+    background-color: var(--danger-color);
+    color: white;
+    animation: emergency-pulse 1s infinite;
+}
+
+.control-btn.reset {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+@keyframes emergency-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.elevator-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.elevator-control {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.elevator-control span {
+    min-width: 100px;
+}
+
+/* Current Operations */
+.operations-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.operation-item {
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    background-color: #f8f9fa;
+}
+
+.operation-item.active {
+    background-color: #e3f2fd;
+    border-color: var(--secondary-color);
+}
+
+/* Queue Status */
+.queue-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.queue-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}
+
+/* Elevators Grid */
+.elevators-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+/* Elevator Display */
+.elevator-display {
+    display: flex;
+    gap: 1rem;
+}
+
+.elevator-shaft {
+    width: 60px;
+    height: 200px;
+    background-color: #f8f9fa;
+    border: 2px solid var(--border-color);
+    border-radius: 4px;
+    position: relative;
+}
+
+.elevator-car {
+    width: 50px;
+    height: 20px;
+    background-color: var(--secondary-color);
+    border-radius: 2px;
+    position: absolute;
+    left: 3px;
+    transition: top 0.5s ease;
+}
+
+.level-markers {
+    position: absolute;
+    right: -20px;
+    top: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 0.7rem;
+}
+
+.elevator-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.25rem 0;
+}
+
+/* Analytics Grid */
+.analytics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 2rem;
+}
+
+.revenue-chart,
+.occupancy-chart {
+    grid-column: span 1;
+}
+
+.performance-metrics {
+    grid-column: span 2;
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.metric {
+    text-align: center;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: var(--border-radius);
+}
+
+.metric-value {
+    display: block;
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--secondary-color);
+}
+
+.metric-label {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+/* Usage Heatmap */
+#usageHeatmap {
+    height: 300px;
+    background-color: #f8f9fa;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+}
+
+/* Maintenance Grid */
+.maintenance-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.maintenance-schedule {
+    grid-column: span 2;
+}
+
+.maintenance-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.maintenance-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    background-color: #f8f9fa;
+}
+
+.maintenance-item.overdue {
+    border-color: var(--danger-color);
+    background-color: #ffebee;
+}
+
+.maintenance-item.due-soon {
+    border-color: var(--warning-color);
+    background-color: #fff8e1;
+}
+
+/* Health Indicators */
+.health-indicators {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.health-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.health-item span:first-child {
+    min-width: 120px;
+}
+
+.health-bar {
+    flex: 1;
+    height: 20px;
+    background-color: #e9ecef;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.health-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--danger-color), var(--warning-color), var(--success-color));
+    transition: width 0.5s ease;
+}
+
+/* Diagnostics */
+.diagnostic-btn {
+    padding: 0.75rem 1.5rem;
+    margin: 0.5rem;
+    border: 1px solid var(--secondary-color);
+    background-color: white;
+    color: var(--secondary-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.diagnostic-btn:hover {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.diagnostic-results {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: var(--border-radius);
+    min-height: 100px;
+}
+
+/* Logs Container */
+.logs-container {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.logs-controls {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    align-items: center;
+}
+
+.logs-controls select,
+.logs-controls input {
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+.logs-controls button {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--secondary-color);
+    background-color: var(--secondary-color);
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.logs-controls button:hover {
+    background-color: var(--primary-color);
+}
+
+.logs-display {
+    height: 400px;
+    overflow-y: auto;
+    padding: 1rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.log-entry {
+    padding: 0.25rem 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.log-entry.info {
+    color: var(--text-color);
+}
+
+.log-entry.warning {
+    color: var(--warning-color);
+}
+
+.log-entry.error {
+    color: var(--danger-color);
+}
+
+.log-entry.critical {
+    color: var(--danger-color);
+    font-weight: bold;
+    background-color: #ffebee;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    width: 80%;
+    max-width: 500px;
+    text-align: center;
+}
+
+.modal-content.emergency {
+    border: 3px solid var(--danger-color);
+    animation: emergency-shake 0.5s infinite;
+}
+
+@keyframes emergency-shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.modal-actions {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.btn-emergency-ack {
+    padding: 1rem 2rem;
+    background-color: var(--danger-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-emergency-ack:hover {
+    background-color: #c0392b;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .status-indicators {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .main-content {
+        padding: 1rem;
+    }
+    
+    .dashboard-grid,
+    .operations-grid,
+    .elevators-grid,
+    .analytics-grid,
+    .maintenance-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .parking-controls {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .parking-grid {
+        grid-template-columns: repeat(10, 1fr);
+    }
+    
+    .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--secondary-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+}

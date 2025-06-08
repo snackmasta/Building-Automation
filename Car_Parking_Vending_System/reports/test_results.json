@@ -1,0 +1,149 @@
+{
+  "total_tests": 23,
+  "passed": 0,
+  "failed": 1,
+  "errors": 22,
+  "skipped": 0,
+  "execution_time": 1.6759963035583496,
+  "coverage": {},
+  "detailed_results": [
+    {
+      "test": "test_communication_protocols (unittest.loader._FailedTest)",
+      "status": "ERROR",
+      "message": "Failed to import test module: test_communication_protocols\nTraceback (most recent call last):\n  File \"C:\\Program Files\\Python310\\lib\\unittest\\loader.py\", line 436, in _find_test_path\n    module = self._get_module_from_name(name)\n  File \"C:\\Program Files\\Python310\\lib\\unittest\\loader.py\", line 377, in _get_module_from_name\n    __import__(name)\n  File \"C:\\Users\\Legion\\Desktop\\PLC\\Car_Parking_Vending_System\\tests\\unit\\test_communication_protocols.py\", line 16, in <module>\n    from communication.protocols import CommunicationManager\n  File \"C:\\Users\\Legion\\Desktop\\PLC\\Car_Parking_Vending_System\\tests\\..\\src\\communication\\protocols.py\", line 7, in <module>\n    import websockets\nModuleNotFoundError: No module named 'websockets'\n",
+      "execution_time": 0
+    },
+    {
+      "test": "test_backup_and_restore (test_database_manager.TestDatabaseManager)",
+      "status": "ERROR",
+      "message": "DatabaseManager.add_vehicle() takes 2 positional arguments but 6 were given",
+      "execution_time": 0
+    },
+    {
+      "test": "test_concurrent_operations (test_database_manager.TestDatabaseManager)",
+      "status": "FAILED",
+      "message": "0 != 20",
+      "execution_time": 0
+    },
+    {
+      "test": "test_data_validation (test_database_manager.TestDatabaseManager)",
+      "status": "ERROR",
+      "message": "DatabaseManager.add_vehicle() takes 2 positional arguments but 6 were given",
+      "execution_time": 0
+    },
+    {
+      "test": "test_database_initialization (test_database_manager.TestDatabaseManager)",
+      "status": "ERROR",
+      "message": "'DatabaseManager' object has no attribute 'get_tables'",
+      "execution_time": 0
+    },
+    {
+      "test": "test_maintenance_records (test_database_manager.TestDatabaseManager)",
+      "status": "ERROR",
+      "message": "'DatabaseManager' object has no attribute 'create_maintenance_record'",
+      "execution_time": 0
+    },
+    {
+      "test": "test_parking_space_operations (test_database_manager.TestDatabaseManager)",
+      "status": "ERROR",
+      "message": "'DatabaseManager' object has no attribute 'allocate_parking_space'",
+      "execution_time": 0
+    },
+    {
+      "test": "test_system_events_logging (test_database_manager.TestDatabaseManager)",
+      "status": "ERROR",
+      "message": "'DatabaseManager' object has no attribute 'log_system_event'",
+      "execution_time": 0
+    },
+    {
+      "test": "test_transaction_operations (test_database_manager.TestDatabaseManager)",
+      "status": "ERROR",
+      "message": "DatabaseManager.create_transaction() takes 2 positional arguments but 5 were given",
+      "execution_time": 0
+    },
+    {
+      "test": "test_vehicle_operations (test_database_manager.TestDatabaseManager)",
+      "status": "ERROR",
+      "message": "DatabaseManager.add_vehicle() takes 2 positional arguments but 6 were given",
+      "execution_time": 0
+    },
+    {
+      "test": "test_arrival_simulation (test_parking_simulator.TestParkingSimulator)",
+      "status": "ERROR",
+      "message": "'ParkingSimulator' object has no attribute 'initialize_parking_grid'",
+      "execution_time": 0
+    },
+    {
+      "test": "test_data_export (test_parking_simulator.TestParkingSimulator)",
+      "status": "ERROR",
+      "message": "'ParkingSimulator' object has no attribute 'initialize_parking_grid'",
+      "execution_time": 0
+    },
+    {
+      "test": "test_departure_simulation (test_parking_simulator.TestParkingSimulator)",
+      "status": "ERROR",
+      "message": "'ParkingSimulator' object has no attribute 'initialize_parking_grid'",
+      "execution_time": 0
+    },
+    {
+      "test": "test_parking_space_management (test_parking_simulator.TestParkingSimulator)",
+      "status": "ERROR",
+      "message": "'ParkingSimulator' object has no attribute 'initialize_parking_grid'",
+      "execution_time": 0
+    },
+    {
+      "test": "test_payment_simulation (test_parking_simulator.TestParkingSimulator)",
+      "status": "ERROR",
+      "message": "'ParkingSimulator' object has no attribute 'generate_payment_method'",
+      "execution_time": 0
+    },
+    {
+      "test": "test_peak_hour_simulation (test_parking_simulator.TestParkingSimulator)",
+      "status": "ERROR",
+      "message": "'ParkingSimulator' object has no attribute 'get_peak_hour_config'",
+      "execution_time": 0
+    },
+    {
+      "test": "test_queue_management (test_parking_simulator.TestParkingSimulator)",
+      "status": "ERROR",
+      "message": "'ParkingSimulator' object has no attribute 'initialize_parking_grid'",
+      "execution_time": 0
+    },
+    {
+      "test": "test_real_time_simulation (test_parking_simulator.TestParkingSimulator)",
+      "status": "ERROR",
+      "message": "'ParkingSimulator' object has no attribute 'initialize_parking_grid'",
+      "execution_time": 0
+    },
+    {
+      "test": "test_scenario_simulation (test_parking_simulator.TestParkingSimulator)",
+      "status": "ERROR",
+      "message": "'ParkingSimulator' object has no attribute 'get_scenario_config'",
+      "execution_time": 0
+    },
+    {
+      "test": "test_simulator_initialization (test_parking_simulator.TestParkingSimulator)",
+      "status": "ERROR",
+      "message": "'ParkingSimulator' object has no attribute 'levels'",
+      "execution_time": 0
+    },
+    {
+      "test": "test_statistics_tracking (test_parking_simulator.TestParkingSimulator)",
+      "status": "ERROR",
+      "message": "'ParkingSimulator' object has no attribute 'initialize_parking_grid'",
+      "execution_time": 0
+    },
+    {
+      "test": "test_vehicle_generation (test_parking_simulator.TestParkingSimulator)",
+      "status": "ERROR",
+      "message": "'ParkingSimulator' object has no attribute 'generate_vehicle'",
+      "execution_time": 0
+    },
+    {
+      "test": "test_system_integration (unittest.loader._FailedTest)",
+      "status": "ERROR",
+      "message": "Failed to import test module: test_system_integration\nTraceback (most recent call last):\n  File \"C:\\Program Files\\Python310\\lib\\unittest\\loader.py\", line 436, in _find_test_path\n    module = self._get_module_from_name(name)\n  File \"C:\\Program Files\\Python310\\lib\\unittest\\loader.py\", line 377, in _get_module_from_name\n    __import__(name)\n  File \"C:\\Users\\Legion\\Desktop\\PLC\\Car_Parking_Vending_System\\tests\\integration\\test_system_integration.py\", line 18, in <module>\n    from communication.protocols import CommunicationManager\n  File \"C:\\Users\\Legion\\Desktop\\PLC\\Car_Parking_Vending_System\\tests\\..\\src\\communication\\protocols.py\", line 7, in <module>\n    import websockets\nModuleNotFoundError: No module named 'websockets'\n",
+      "execution_time": 0
+    }
+  ]
+}
