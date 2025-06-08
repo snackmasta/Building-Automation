@@ -129,6 +129,79 @@ python utils\verification\verify_system.py
 - **I/O Configuration**: 64 digital inputs, 32 digital outputs, 16 analog inputs
 - **Safety Rating**: SIL 2 compliant with emergency stops
 
+## I/O Mapping
+
+### Digital Inputs
+| Address | Signal Name | Description | Type | Signal Level | Function |
+|---------|-------------|-------------|------|--------------|----------|
+| %I0.0 | SEAWATER_INTAKE | Seawater intake status | NO Contact | 24VDC | Intake valve position |
+| %I0.1 | START_BUTTON | System start command | NO Contact | 24VDC | Operator start button |
+| %I0.2 | STOP_BUTTON | System stop command | NC Contact | 24VDC | Operator stop button |
+| %I0.3 | EMERGENCY_BUTTON | Emergency shutdown | NC Contact | 24VDC | Emergency stop button |
+| %I0.4 | GROUND_TANK_LOW | Ground tank low level | Float Switch | 24VDC | Low level alarm |
+| %I0.5 | GROUND_TANK_HIGH | Ground tank high level | Float Switch | 24VDC | High level alarm |
+| %I0.6 | ROOF_TANK_LOW | Roof tank low level | Float Switch | 24VDC | Low level alarm |
+| %I0.7 | ROOF_TANK_HIGH | Roof tank high level | Float Switch | 24VDC | High level alarm |
+| %I1.0 | LEAK_DETECTOR_1 | Leak detector zone 1 | Probe | 24VDC | Water leakage detection |
+| %I1.1 | LEAK_DETECTOR_2 | Leak detector zone 2 | Probe | 24VDC | Water leakage detection |
+| %I1.2 | RO_HIGH_PRESSURE | RO high pressure alarm | Pressure Switch | 24VDC | Over-pressure protection |
+| %I1.3 | FILTER_CLOGGED | Pre-filter clogged | Differential Switch | 24VDC | Filter maintenance alarm |
+
+### Analog Inputs
+| Address | Signal Name | Description | Range | Signal Type | Calibration | Function |
+|---------|-------------|-------------|-------|-------------|-------------|----------|
+| %IW0 | SEAWATER_TDS | Seawater TDS sensor | 0-50,000 ppm | 4-20mA | 4mA=0ppm, 20mA=50,000ppm | Feed water quality |
+| %IW1 | SEAWATER_TEMP | Seawater temperature | 0-60°C | 4-20mA | 4mA=0°C, 20mA=60°C | Feed water monitoring |
+| %IW2 | GROUND_TANK_LEVEL | Ground tank level | 0-100% | 4-20mA | 4mA=0%, 20mA=100% | Storage monitoring |
+| %IW3 | ROOF_TANK_LEVEL | Roof tank level | 0-100% | 4-20mA | 4mA=0%, 20mA=100% | Distribution monitoring |
+| %IW4 | RO_PRESSURE | RO operating pressure | 0-80 bar | 4-20mA | 4mA=0bar, 20mA=80bar | Membrane pressure |
+| %IW5 | DISTRIBUTION_PRESSURE | Distribution pressure | 0-10 bar | 4-20mA | 4mA=0bar, 20mA=10bar | Supply pressure |
+| %IW6 | PERMEATE_FLOW | RO permeate flow | 0-500 L/min | 4-20mA | 4mA=0L/min, 20mA=500L/min | Product flow rate |
+| %IW7 | CONCENTRATE_FLOW | RO concentrate flow | 0-500 L/min | 4-20mA | 4mA=0L/min, 20mA=500L/min | Reject flow rate |
+| %IW8 | PRODUCT_TDS | Product water TDS | 0-2000 ppm | 4-20mA | 4mA=0ppm, 20mA=2000ppm | Product water quality |
+| %IW9 | PRODUCT_PH | Product water pH | 0-14 pH | 4-20mA | 4mA=0pH, 20mA=14pH | Product pH monitoring |
+| %IW10 | PRODUCT_TURBIDITY | Product turbidity | 0-50 NTU | 4-20mA | 4mA=0NTU, 20mA=50NTU | Water clarity |
+| %IW11 | CHLORINE_LEVEL | Chlorine residual | 0-5 mg/L | 4-20mA | 4mA=0mg/L, 20mA=5mg/L | Disinfection monitoring |
+
+### Digital Outputs
+| Address | Signal Name | Description | Type | Signal Level | Load Current | Function |
+|---------|-------------|-------------|------|--------------|--------------|----------|
+| %Q0.0 | INTAKE_PUMP | Seawater intake pump | Contactor | 24VDC | 10A | Feed water supply |
+| %Q0.1 | PREFILTER_PUMP | Pre-filtration pump | Contactor | 24VDC | 5A | Pre-treatment |
+| %Q0.2 | RO_PUMP | RO high pressure pump | Contactor | 24VDC | 25A | Membrane operation |
+| %Q0.3 | BOOSTER_PUMP_1 | Distribution pump 1 | Contactor | 24VDC | 7.5A | Water distribution |
+| %Q0.4 | BOOSTER_PUMP_2 | Distribution pump 2 | Contactor | 24VDC | 7.5A | Backup distribution |
+| %Q0.5 | INTAKE_VALVE | Seawater intake valve | Solenoid | 24VDC | 2A | Feed water control |
+| %Q0.6 | RO_PERMEATE_VALVE | RO permeate valve | Solenoid | 24VDC | 1.5A | Product water control |
+| %Q0.7 | CONCENTRATE_VALVE | Concentrate valve | Solenoid | 24VDC | 1.5A | Reject water control |
+| %Q1.0 | GROUND_TANK_VALVE | Ground tank inlet valve | Solenoid | 24VDC | 2A | Storage control |
+| %Q1.1 | ROOF_TANK_VALVE | Roof tank inlet valve | Solenoid | 24VDC | 2A | Distribution control |
+| %Q1.2 | CHLORINE_DOSING_PUMP | Chlorine dosing pump | Peristaltic | 24VDC | 1A | Chemical dosing |
+| %Q1.3 | PH_DOSING_PUMP | pH adjustment pump | Peristaltic | 24VDC | 1A | pH correction |
+| %Q1.4 | UV_STERILIZER | UV sterilizer | UV Lamp | 24VDC | 3A | Disinfection |
+| %Q1.5 | SYSTEM_ALARM | System alarm horn | Horn | 24VDC | 0.5A | Audible alarm |
+| %Q1.6 | STATUS_LIGHT | System status light | LED | 24VDC | 0.1A | Normal operation |
+| %Q1.7 | ALARM_LIGHT | Alarm indicator light | LED | 24VDC | 0.1A | Fault indication |
+
+### Analog Outputs
+| Address | Signal Name | Description | Range | Signal Type | Calibration | Function |
+|---------|-------------|-------------|-------|-------------|-------------|----------|
+| %QW0 | INTAKE_PUMP_SPEED | Intake pump VFD | 0-100% | 4-20mA | 4mA=0%, 20mA=100% | Pump speed control |
+| %QW1 | RO_PUMP_SPEED | RO pump VFD | 0-100% | 4-20mA | 4mA=0%, 20mA=100% | High pressure control |
+| %QW2 | BOOSTER_SPEED_1 | Booster pump 1 VFD | 0-100% | 4-20mA | 4mA=0%, 20mA=100% | Distribution control |
+| %QW3 | BOOSTER_SPEED_2 | Booster pump 2 VFD | 0-100% | 4-20mA | 4mA=0%, 20mA=100% | Backup pump control |
+| %QW4 | CHLORINE_RATE | Chlorine dosing rate | 0-100% | 4-20mA | 4mA=0%, 20mA=100% | Chemical dosing |
+| %QW5 | PH_DOSE_RATE | pH dosing rate | 0-100% | 4-20mA | 4mA=0%, 20mA=100% | pH adjustment |
+
+### I/O Summary
+- **Total Digital Inputs**: 12 points (Safety Category SIL 2)
+- **Total Analog Inputs**: 12 points (4-20mA process signals)
+- **Total Digital Outputs**: 16 points (Motor control and valves)
+- **Total Analog Outputs**: 6 points (VFD and dosing control)
+- **Power Consumption**: ~150W total I/O power
+- **Safety Systems**: Emergency stops, pressure relief, leak detection
+- **Communication**: Modbus TCP/IP for SCADA integration
+
 ### Process Parameters
 - **Feed Water**: Seawater (35,000 ppm TDS)
 - **Product Water**: <500 ppm TDS, pH 6.5-8.5

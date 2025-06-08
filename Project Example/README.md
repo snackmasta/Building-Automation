@@ -70,22 +70,36 @@ The system will automatically shut down if:
 ## I/O Mapping
 
 ### Digital Inputs
-- I0.0: Start Button
-- I0.1: Stop Button
-- I0.2: Emergency Stop
-- I0.3: Level Sensor
+| Address | Signal Name | Description | Type | Signal Level | Function |
+|---------|-------------|-------------|------|--------------|----------|
+| %I0.0 | START_BUTTON | Process start command | NO Contact | 24VDC | Operator start button |
+| %I0.1 | STOP_BUTTON | Process stop command | NC Contact | 24VDC | Operator stop button |
+| %I0.2 | EMERGENCY_STOP | Emergency shutdown | NC Contact | 24VDC | Safety emergency stop |
+| %I0.3 | LEVEL_SENSOR | Tank level monitoring | Reed Switch | 24VDC | Low level detection |
 
 ### Analog Inputs
-- IW0: Temperature Sensor (°C)
-- IW2: Pressure Sensor (bar)
+| Address | Signal Name | Description | Range | Signal Type | Calibration | Function |
+|---------|-------------|-------------|-------|-------------|-------------|----------|
+| %IW0 | TEMPERATURE | Process temperature | 0-120°C | 4-20mA | 4mA=0°C, 20mA=120°C | Temperature monitoring |
+| %IW2 | PRESSURE | System pressure | 0-10 bar | 4-20mA | 4mA=0bar, 20mA=10bar | Pressure monitoring |
 
 ### Digital Outputs
-- Q0.0: Main Pump
-- Q0.1: Heater
-- Q0.2: Inlet Valve
-- Q0.3: Outlet Valve
-- Q0.4: Alarm Light (Red)
-- Q0.5: Status Light (Green)
+| Address | Signal Name | Description | Type | Signal Level | Load Current | Function |
+|---------|-------------|-------------|------|--------------|--------------|----------|
+| %Q0.0 | MAIN_PUMP | Process circulation pump | Relay | 24VDC | 2A max | Fluid circulation |
+| %Q0.1 | HEATER | Electric heating element | Relay | 24VDC | 5A max | Temperature control |
+| %Q0.2 | INLET_VALVE | Tank inlet solenoid valve | Solenoid | 24VDC | 0.5A | Fluid inlet control |
+| %Q0.3 | OUTLET_VALVE | Tank outlet solenoid valve | Solenoid | 24VDC | 0.5A | Fluid outlet control |
+| %Q0.4 | ALARM_LIGHT | Red alarm indicator | LED | 24VDC | 0.1A | Fault indication |
+| %Q0.5 | STATUS_LIGHT | Green status indicator | LED | 24VDC | 0.1A | Normal operation |
+
+### I/O Summary
+- **Total Digital Inputs**: 4 points
+- **Total Analog Inputs**: 2 points (4-20mA)
+- **Total Digital Outputs**: 6 points
+- **Total Analog Outputs**: 0 points
+- **Power Consumption**: ~20W total
+- **Safety Category**: Basic (SIL 1 equivalent)
 
 ## Running the Applications
 
