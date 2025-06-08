@@ -925,8 +925,7 @@ class WaterTreatmentGUI:
         self.ax2.set_title('Production Rate (L/min)')
         self.ax2.set_ylabel('Flow Rate (L/min)')
         self.ax2.grid(True)
-        
-        # Water quality plot
+          # Water quality plot
         tds_values = [d['product_water']['tds'] for d in recent_data]
         ph_values = [d['product_water']['ph'] * 100 for d in recent_data]  # Scale pH for visibility
         
@@ -939,7 +938,6 @@ class WaterTreatmentGUI:
         
         # Energy consumption plot
         power_values = [d['energy']['power_consumption'] for d in recent_data]
-        
         self.ax4.plot(times, power_values, color='red')
         self.ax4.set_title('Energy Consumption (kW)')
         self.ax4.set_ylabel('Power (kW)')
@@ -951,12 +949,12 @@ class WaterTreatmentGUI:
     def start_system(self):
         """Start the water treatment system"""
         self.simulator.control_inputs['start_button'] = True
-        self.root.after(100, lambda: setattr(self.simulator.control_inputs, 'start_button', False))
+        self.root.after(100, lambda: self.simulator.control_inputs.update({'start_button': False}))
     
     def stop_system(self):
         """Stop the water treatment system"""
         self.simulator.control_inputs['stop_button'] = True
-        self.root.after(100, lambda: setattr(self.simulator.control_inputs, 'stop_button', False))
+        self.root.after(100, lambda: self.simulator.control_inputs.update({'stop_button': False}))
     
     def emergency_stop(self):
         """Activate emergency stop"""

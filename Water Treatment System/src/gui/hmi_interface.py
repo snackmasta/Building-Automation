@@ -10,10 +10,17 @@ import sqlite3
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
+import threading
+import time
+import json
+import os
+from datetime import datetime
+import numpy as np
 from datetime import datetime, timedelta
 import threading
 import time
 import json
+import os
 
 class WaterTreatmentHMI:
     def __init__(self, root):
@@ -38,8 +45,7 @@ class WaterTreatmentHMI:
             'pumps': [
                 {'id': 1, 'status': 'Running', 'flow': 125.3, 'pressure': 4.2, 'runtime': 1247},
                 {'id': 2, 'status': 'Standby', 'flow': 0.0, 'pressure': 0.0, 'runtime': 1156},
-                {'id': 3, 'status': 'Running', 'flow': 98.7, 'pressure': 3.8, 'runtime': 1089}
-            ],
+                {'id': 3, 'status': 'Running', 'flow': 98.7, 'pressure': 3.8, 'runtime': 1089}            ],
             'water_quality': {
                 'ph': 7.2, 'chlorine': 0.8, 'tds': 185, 'turbidity': 0.12,
                 'temperature': 22.5, 'conductivity': 280
@@ -47,8 +53,8 @@ class WaterTreatmentHMI:
             'alarms': [],
             'energy': {'consumption': 125.8, 'efficiency': 88.5}
         }
-        
         self.running = True
+        self.simulator_log_file = "water_treatment_log.json"
         self.setup_ui()
         self.start_data_update()
         
@@ -240,6 +246,111 @@ class WaterTreatmentHMI:
         for alarm in sample_alarms:
             self.alarms_tree.insert('', 'end', values=alarm)
         
+    def read_real_simulator_data(self):
+        """Read real data from simulator log file"""
+        try:
+            if os.path.exists(self.simulator_log_file):
+                with open(self.simulator_log_file, 'r') as f:
+                    data_log = json.load(f)
+                
+                if data_log:
+                    # Get the most recent data point
+                    latest_data = data_log[-1]
+                    
+                    # Update system data with real simulator values
+                    self.system_data = {
+                        'seawater_tank': {
+                            'level': latest_data.get('ground_tank', {}).get('level', 50.0),
+                            'volume': latest_data.get('ground_tank', {}).get('volume', 25000)
+                        },
+                        'treated_tank': {
+                            'level': latest_data.get('roof_tank', {}).get('level', 30.0),
+                            'volume': latest_data.get('roof_tank', {}).get('volume', 15000)
+                        },
+                        'roof_tanks': [
+                            {
+                                'id': 1, 
+                                'level': latest_data.get('roof_tank', {}).get('level', 30.0),
+                                'volume': latest_data.get('roof_tank', {}).get('volume', 15000),
+                                'zone': 'North'
+                            },
+                            {
+                                'id': 2, 
+                                'level': latest_data.get('roof_tank', {}).get('level', 30.0) * 0.9,
+                                'volume': latest_data.get('roof_tank', {}).get('volume', 15000) * 0.9,
+                                'zone': 'South'
+                            },
+                            {
+                                'id': 3, 
+                                'level': latest_data.get('roof_tank', {}).get('level', 30.0) * 1.1,
+                                'volume': latest_data.get('roof_tank', {}).get('volume', 15000) * 1.1,
+                                'zone': 'East'
+                            }
+                        ],
+                        'ro_system': {
+                            'pressure': latest_data.get('ro_system', {}).get('pressure', 55.0),
+                            'flow_rate': latest_data.get('production', {}).get('production_rate', 160.0),
+                            'recovery': latest_data.get('ro_system', {}).get('recovery', 45.0),
+                            'membrane_hours': latest_data.get('ro_system', {}).get('membrane_hours', 2800),
+                            'efficiency': latest_data.get('production', {}).get('efficiency', 90.0)
+                        },
+                        'pumps': [
+                            {
+                                'id': 1, 
+                                'status': 'Running' if latest_data.get('pumps', {}).get('intake', {}).get('running', False) else 'Stopped',
+                                'flow': latest_data.get('pumps', {}).get('intake', {}).get('flow_rate', 0.0),
+                                'pressure': latest_data.get('pumps', {}).get('intake', {}).get('pressure', 0.0),
+                                'runtime': latest_data.get('pumps', {}).get('intake', {}).get('runtime', 0)
+                            },
+                            {
+                                'id': 2, 
+                                'status': 'Running' if latest_data.get('pumps', {}).get('ro', {}).get('running', False) else 'Stopped',
+                                'flow': latest_data.get('pumps', {}).get('ro', {}).get('flow_rate', 0.0),
+                                'pressure': latest_data.get('pumps', {}).get('ro', {}).get('pressure', 0.0),
+                                'runtime': latest_data.get('pumps', {}).get('ro', {}).get('runtime', 0)
+                            },
+                            {
+                                'id': 3, 
+                                'status': 'Running' if latest_data.get('pumps', {}).get('booster1', {}).get('running', False) else 'Stopped',
+                                'flow': latest_data.get('pumps', {}).get('booster1', {}).get('flow_rate', 0.0),
+                                'pressure': latest_data.get('pumps', {}).get('booster1', {}).get('pressure', 0.0),
+                                'runtime': latest_data.get('pumps', {}).get('booster1', {}).get('runtime', 0)
+                            }
+                        ],
+                        'water_quality': {
+                            'ph': latest_data.get('product_water', {}).get('ph', 7.2),
+                            'chlorine': latest_data.get('product_water', {}).get('chlorine', 0.8),
+                            'tds': latest_data.get('product_water', {}).get('tds', 150),
+                            'turbidity': latest_data.get('product_water', {}).get('turbidity', 0.1),
+                            'temperature': latest_data.get('product_water', {}).get('temperature', 22.0),
+                            'conductivity': latest_data.get('product_water', {}).get('conductivity', 250)
+                        },
+                        'alarms': [],
+                        'energy': {
+                            'consumption': latest_data.get('energy', {}).get('power_consumption', 120.0),
+                            'efficiency': latest_data.get('production', {}).get('efficiency', 88.0)
+                        }
+                    }
+                      # Add active alarms
+                    alarms_data = latest_data.get('alarms', {})
+                    active_alarms = []
+                    for alarm_type, is_active in alarms_data.items():
+                        if is_active:
+                            active_alarms.append([
+                                datetime.now().strftime('%H:%M:%S'),
+                                'HIGH' if alarm_type in ['emergency_stop', 'water_quality'] else 'MEDIUM',
+                                alarm_type.replace('_', ' ').title(),
+                                f"{alarm_type.replace('_', ' ').title()} alarm active",
+                                'ACTIVE'
+                            ])
+                    self.system_data['alarms'] = active_alarms
+                    
+                    return True
+            return False
+        except Exception as e:
+            print(f"Error reading simulator data: {e}")
+            return False
+    
     def create_trends_tab(self):
         """Create trends and analytics tab"""
         trends_frame = ttk.Frame(self.notebook)
@@ -247,49 +358,92 @@ class WaterTreatmentHMI:
         
         # Create matplotlib figure
         self.fig, ((self.ax1, self.ax2), (self.ax3, self.ax4)) = plt.subplots(2, 2, figsize=(12, 8))
-        self.fig.suptitle('Water Treatment System Trends', fontsize=16)
+        self.fig.suptitle('Water Treatment System Trends - Real Data', fontsize=16)
         
-        # Generate sample data
-        hours = np.arange(24)
-        
-        # Production rate trend
-        production_data = 160 + 10 * np.sin(hours * np.pi / 12) + np.random.normal(0, 2, 24)
-        self.ax1.plot(hours, production_data, 'b-', linewidth=2)
-        self.ax1.set_title('Production Rate (L/min)')
-        self.ax1.set_xlabel('Hour')
-        self.ax1.grid(True, alpha=0.3)
-        
-        # Tank levels trend
-        tank1_levels = 75 + 10 * np.sin((hours + 6) * np.pi / 12) + np.random.normal(0, 1, 24)
-        tank2_levels = 70 + 8 * np.sin((hours + 3) * np.pi / 12) + np.random.normal(0, 1, 24)
-        self.ax2.plot(hours, tank1_levels, 'g-', label='Tank 1', linewidth=2)
-        self.ax2.plot(hours, tank2_levels, 'r-', label='Tank 2', linewidth=2)
-        self.ax2.set_title('Tank Levels (%)')
-        self.ax2.set_xlabel('Hour')
-        self.ax2.legend()
-        self.ax2.grid(True, alpha=0.3)
-        
-        # Water quality trend
-        ph_data = 7.2 + 0.2 * np.sin(hours * np.pi / 6) + np.random.normal(0, 0.05, 24)
-        self.ax3.plot(hours, ph_data, 'm-', linewidth=2)
-        self.ax3.set_title('pH Levels')
-        self.ax3.set_xlabel('Hour')
-        self.ax3.set_ylim(6.8, 7.6)
-        self.ax3.grid(True, alpha=0.3)
-        
-        # Energy consumption trend
-        energy_data = 120 + 15 * np.sin(hours * np.pi / 12) + np.random.normal(0, 3, 24)
-        self.ax4.plot(hours, energy_data, 'orange', linewidth=2)
-        self.ax4.set_title('Power Consumption (kW)')
-        self.ax4.set_xlabel('Hour')
-        self.ax4.grid(True, alpha=0.3)
+        # Initialize plots with real data
+        self.update_trend_plots()
         
         plt.tight_layout()
         
         # Embed matplotlib in tkinter
-        canvas = FigureCanvasTkAgg(self.fig, trends_frame)
-        canvas.draw()
-        canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+        self.trends_canvas = FigureCanvasTkAgg(self.fig, trends_frame)
+        self.trends_canvas.draw()
+        self.trends_canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+        
+    def update_trend_plots(self):
+        """Update trend plots with real simulator data"""
+        try:
+            if os.path.exists(self.simulator_log_file):
+                with open(self.simulator_log_file, 'r') as f:
+                    data_log = json.load(f)
+                
+                if len(data_log) < 2:
+                    # Not enough data yet, show placeholder
+                    for ax in [self.ax1, self.ax2, self.ax3, self.ax4]:
+                        ax.clear()
+                        ax.text(0.5, 0.5, 'Waiting for data...', 
+                               ha='center', va='center', transform=ax.transAxes)
+                    return
+                
+                # Get last 50 data points for trends
+                recent_data = data_log[-50:] if len(data_log) >= 50 else data_log
+                times = list(range(len(recent_data)))
+                
+                # Clear previous plots
+                for ax in [self.ax1, self.ax2, self.ax3, self.ax4]:
+                    ax.clear()
+                
+                # Production rate trend (real data)
+                production_rates = [d.get('production', {}).get('production_rate', 0) for d in recent_data]
+                self.ax1.plot(times, production_rates, 'b-', linewidth=2, label='Real Production Rate')
+                self.ax1.set_title('Production Rate (L/min) - Real Data')
+                self.ax1.set_xlabel('Data Points')
+                self.ax1.set_ylabel('L/min')
+                self.ax1.grid(True, alpha=0.3)
+                self.ax1.legend()
+                
+                # Tank levels trend (real data)
+                ground_levels = [d.get('ground_tank', {}).get('level', 0) for d in recent_data]
+                roof_levels = [d.get('roof_tank', {}).get('level', 0) for d in recent_data]
+                self.ax2.plot(times, ground_levels, 'g-', label='Ground Tank', linewidth=2)
+                self.ax2.plot(times, roof_levels, 'r-', label='Roof Tank', linewidth=2)
+                self.ax2.set_title('Tank Levels (%) - Real Data')
+                self.ax2.set_xlabel('Data Points')
+                self.ax2.set_ylabel('Level (%)')
+                self.ax2.legend()
+                self.ax2.grid(True, alpha=0.3)
+                
+                # Water quality trend (real data)
+                ph_data = [d.get('product_water', {}).get('ph', 7.0) for d in recent_data]
+                tds_data = [d.get('product_water', {}).get('tds', 0) / 10 for d in recent_data]  # Scale for visibility
+                self.ax3.plot(times, ph_data, 'm-', linewidth=2, label='pH')
+                self.ax3.plot(times, tds_data, 'c-', linewidth=2, label='TDS/10')
+                self.ax3.set_title('Water Quality - Real Data')
+                self.ax3.set_xlabel('Data Points')
+                self.ax3.set_ylabel('Value')
+                self.ax3.legend()
+                self.ax3.grid(True, alpha=0.3)
+                
+                # Energy consumption trend (real data)
+                energy_data = [d.get('energy', {}).get('power_consumption', 0) for d in recent_data]
+                self.ax4.plot(times, energy_data, 'orange', linewidth=2, label='Real Power')
+                self.ax4.set_title('Power Consumption (kW) - Real Data')
+                self.ax4.set_xlabel('Data Points')
+                self.ax4.set_ylabel('kW')
+                self.ax4.legend()
+                self.ax4.grid(True, alpha=0.3)
+                
+                # Refresh canvas
+                if hasattr(self, 'trends_canvas'):
+                    self.trends_canvas.draw()
+                    
+        except Exception as e:
+            print(f"Error updating trend plots: {e}")
+            # Fall back to placeholder text
+            for ax in [self.ax1, self.ax2, self.ax3, self.ax4]:
+                ax.clear()
+                ax.text(0.5, 0.5, f'Error loading data: {str(e)}', 
+                       ha='center', va='center', transform=ax.transAxes)
         
     def create_tank_displays(self, parent):
         """Create visual tank level displays"""
@@ -435,19 +589,20 @@ class WaterTreatmentHMI:
         ro['flow_rate'] = max(150, min(180, ro['flow_rate']))
         ro['recovery'] = max(40, min(50, ro['recovery']))
         ro['efficiency'] = max(85, min(95, ro['efficiency']))
-        
-        # Simulate water quality variations
+          # Simulate water quality variations
         quality = self.system_data['water_quality']
         quality['ph'] += random.uniform(-0.02, 0.02)
         quality['chlorine'] += random.uniform(-0.05, 0.05)
         quality['ph'] = max(6.8, min(7.6, quality['ph']))
         quality['chlorine'] = max(0.5, min(1.2, quality['chlorine']))
-        
+    
     def start_data_update(self):
         """Start the data update thread"""
         def update_loop():
             while self.running:
-                self.simulate_data_changes()
+                # Try to read real simulator data, fall back to simulation if needed
+                if not self.read_real_simulator_data():
+                    self.simulate_data_changes()
                 self.root.after(0, self.update_display_data)
                 time.sleep(2)  # Update every 2 seconds
                 
