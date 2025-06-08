@@ -1,0 +1,117 @@
+{
+  "timestamp": "2025-06-08T09:48:00.441803",
+  "overall_status": "NEEDS_WORK",
+  "tests_passed": 52,
+  "tests_failed": 6,
+  "warnings": 14,
+  "categories": {
+    "Project Structure": {
+      "passed": 20,
+      "failed": 1,
+      "warnings": 0,
+      "details": [
+        "\u2705 Directory exists: config",
+        "\u2705 Directory exists: diagrams",
+        "\u2705 Directory exists: docs",
+        "\u274c Missing directory: logs",
+        "\u2705 Directory exists: plc",
+        "\u2705 Directory exists: scripts/batch",
+        "\u2705 Directory exists: src/core",
+        "\u2705 Directory exists: src/gui",
+        "\u2705 Directory exists: src/monitoring",
+        "\u2705 Directory exists: src/simulation",
+        "\u2705 Directory exists: tests",
+        "\u2705 Directory exists: utils",
+        "\u2705 Directory exists: wiki/assets",
+        "\u2705 Directory exists: wiki/pages",
+        "\u2705 Directory exists: wiki/templates"
+      ]
+    },
+    "Configuration Files": {
+      "passed": 8,
+      "failed": 3,
+      "warnings": 0,
+      "details": [
+        "\u274c Missing parameter: ZONES.number_of_zones",
+        "\u274c Missing parameter: TEMPERATURE_CONTROL.default_setpoint",
+        "\u274c Missing parameter: EQUIPMENT.ahu_count",
+        "\u2705 Configuration file structure valid"
+      ]
+    },
+    "PLC Programs": {
+      "passed": 6,
+      "failed": 0,
+      "warnings": 10,
+      "details": [
+        "\u2705 main.st: Basic structure valid",
+        "\u26a0\ufe0f global_vars.st: Contains PROGRAM declaration",
+        "\u26a0\ufe0f global_vars.st: Contains END_PROGRAM",
+        "\u2705 global_vars.st: Basic structure valid",
+        "\u26a0\ufe0f temperature_controller.st: Contains PROGRAM declaration",
+        "\u26a0\ufe0f temperature_controller.st: Contains END_PROGRAM",
+        "\u2705 temperature_controller.st: Basic structure valid",
+        "\u26a0\ufe0f air_quality_controller.st: Contains PROGRAM declaration",
+        "\u26a0\ufe0f air_quality_controller.st: Contains END_PROGRAM",
+        "\u2705 air_quality_controller.st: Basic structure valid",
+        "\u26a0\ufe0f energy_manager.st: Contains PROGRAM declaration",
+        "\u26a0\ufe0f energy_manager.st: Contains END_PROGRAM",
+        "\u2705 energy_manager.st: Basic structure valid",
+        "\u26a0\ufe0f safety_controller.st: Contains PROGRAM declaration",
+        "\u26a0\ufe0f safety_controller.st: Contains END_PROGRAM",
+        "\u2705 safety_controller.st: Basic structure valid"
+      ]
+    },
+    "Python Scripts": {
+      "passed": 2,
+      "failed": 0,
+      "warnings": 3,
+      "details": [
+        "\u2705 src/gui/hmi_interface.py: Syntax valid",
+        "\u26a0\ufe0f src/simulation/hvac_simulator.py: Check error - 'charmap' codec can't decode byte 0x9d in position 21115: character maps to <undefined>",
+        "\u26a0\ufe0f src/monitoring/system_status.py: Check error - 'charmap' codec can't decode byte 0x8d in position 4188: character maps to <undefined>",
+        "\u26a0\ufe0f utils/hvac_diagram.py: Check error - 'charmap' codec can't decode byte 0x81 in position 2665: character maps to <undefined>"
+      ]
+    },
+    "Documentation": {
+      "passed": 4,
+      "failed": 1,
+      "warnings": 0,
+      "details": [
+        "\u274c README.md error: 'charmap' codec can't decode byte 0x8f in position 172: character maps to <undefined>"
+      ]
+    },
+    "System Integration": {
+      "passed": 3,
+      "failed": 1,
+      "warnings": 0,
+      "details": [
+        "\u2705 Web HMI interface available",
+        "\u274c Logging directory missing",
+        "\u2705 System status monitor available",
+        "\u2705 Diagram generator available"
+      ]
+    },
+    "Security & Safety": {
+      "passed": 5,
+      "failed": 0,
+      "warnings": 0,
+      "details": [
+        "\u2705 Emergency shutdown procedures implemented",
+        "\u2705 Fire safety systems implemented",
+        "\u2705 Freeze protection implemented",
+        "\u2705 Alarm management implemented",
+        "\u2705 Safety configuration section exists"
+      ]
+    },
+    "Performance": {
+      "passed": 4,
+      "failed": 0,
+      "warnings": 1,
+      "details": [
+        "\u26a0\ufe0f Scheduling features limited",
+        "\u2705 Energy management system present",
+        "\u2705 System simulator available"
+      ]
+    }
+  }
+}

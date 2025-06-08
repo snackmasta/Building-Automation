@@ -1,0 +1,130 @@
+{
+  "system_status": {
+    "startup_time": "2025-06-08T10:15:08.831566",
+    "running": true,
+    "error_count": 0,
+    "last_update": "2025-06-08T10:15:18.927196"
+  },
+  "zones": {
+    "zone_1": {
+      "name": "Lobby",
+      "temperature": 22.0,
+      "setpoint_heating": 21.0,
+      "setpoint_cooling": 24.0,
+      "humidity": 44.45000000000003,
+      "co2": 400,
+      "occupied": false,
+      "damper_position": 50,
+      "fan_speed": 30
+    },
+    "zone_2": {
+      "name": "Conference Room",
+      "temperature": 22.0,
+      "setpoint_heating": 21.0,
+      "setpoint_cooling": 24.0,
+      "humidity": 44.45000000000003,
+      "co2": 400,
+      "occupied": false,
+      "damper_position": 50,
+      "fan_speed": 30
+    },
+    "zone_3": {
+      "name": "Office Area 1",
+      "temperature": 22.0,
+      "setpoint_heating": 21.0,
+      "setpoint_cooling": 24.0,
+      "humidity": 44.45000000000003,
+      "co2": 400,
+      "occupied": false,
+      "damper_position": 50,
+      "fan_speed": 30
+    },
+    "zone_4": {
+      "name": "Office Area 2",
+      "temperature": 22.0,
+      "setpoint_heating": 21.0,
+      "setpoint_cooling": 24.0,
+      "humidity": 44.45000000000003,
+      "co2": 400,
+      "occupied": false,
+      "damper_position": 50,
+      "fan_speed": 30
+    },
+    "zone_5": {
+      "name": "Kitchen",
+      "temperature": 22.0,
+      "setpoint_heating": 21.0,
+      "setpoint_cooling": 24.0,
+      "humidity": 44.45000000000003,
+      "co2": 400,
+      "occupied": false,
+      "damper_position": 50,
+      "fan_speed": 30
+    },
+    "zone_6": {
+      "name": "Server Room",
+      "temperature": 22.0,
+      "setpoint_heating": 21.0,
+      "setpoint_cooling": 24.0,
+      "humidity": 44.45000000000003,
+      "co2": 400,
+      "occupied": false,
+      "damper_position": 50,
+      "fan_speed": 30
+    },
+    "zone_7": {
+      "name": "Storage",
+      "temperature": 22.0,
+      "setpoint_heating": 21.0,
+      "setpoint_cooling": 24.0,
+      "humidity": 44.45000000000003,
+      "co2": 400,
+      "occupied": false,
+      "damper_position": 50,
+      "fan_speed": 30
+    },
+    "zone_8": {
+      "name": "Break Room",
+      "temperature": 22.0,
+      "setpoint_heating": 21.0,
+      "setpoint_cooling": 24.0,
+      "humidity": 44.45000000000003,
+      "co2": 400,
+      "occupied": false,
+      "damper_position": 50,
+      "fan_speed": 30
+    }
+  },
+  "equipment": {
+    "supply_fan": {
+      "running": true,
+      "speed": 75,
+      "vfd_enabled": true
+    },
+    "return_fan": {
+      "running": false,
+      "speed": 0,
+      "vfd_enabled": true
+    },
+    "cooling_coil": {
+      "stages": 2,
+      "active_stages": 0,
+      "capacity": 0
+    },
+    "heating_coil": {
+      "stages": 2,
+      "active_stages": 0,
+      "capacity": 0
+    },
+    "economizer": {
+      "enabled": true,
+      "position": 0,
+      "mode": "auto"
+    },
+    "heat_recovery": {
+      "enabled": true,
+      "effectiveness": 0.75,
+      "bypass": false
+    }
+  }
+}

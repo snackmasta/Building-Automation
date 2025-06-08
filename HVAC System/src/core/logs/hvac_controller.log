@@ -1,0 +1,4 @@
+2025-06-08 10:14:46,014 - __main__ - INFO - Starting HVAC Controller
+2025-06-08 10:14:46,014 - __main__ - ERROR - Failed to load configuration: Configuration file not found: C:\Users\Legion\Desktop\PLC\HVAC System\src\core\config\plc_config.ini
+2025-06-08 10:14:46,014 - __main__ - ERROR - Failed to load configuration. Exiting.
+2025-06-08 10:14:46,015 - __main__ - INFO - Stopping HVAC Controller

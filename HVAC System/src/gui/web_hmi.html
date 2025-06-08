@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HVAC Control System - Web HMI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #ffffff;
+            overflow-x: auto;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-light {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .status-light.online {
+            background: #00ff00;
+            box-shadow: 0 0 10px #00ff00;
+        }
+
+        .status-light.offline {
+            background: #ff0000;
+            box-shadow: 0 0 10px #ff0000;
+        }
+
+        .status-light.warning {
+            background: #ffaa00;
+            box-shadow: 0 0 10px #ffaa00;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .control-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .control-panel {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .control-panel:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .control-panel h3 {
+            margin-bottom: 15px;
+            color: #ffffff;
+            font-size: 1.3em;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .zone-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .zone-card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .zone-card:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.05);
+        }
+
+        .zone-card h4 {
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .temperature-display {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #00ff88;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+
+        .setpoint-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .btn {
+            background: linear-gradient(145deg, #4CAF50, #45a049);
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:hover {
+            background: linear-gradient(145deg, #45a049, #4CAF50);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn.danger {
+            background: linear-gradient(145deg, #f44336, #da190b);
+        }
+
+        .btn.danger:hover {
+            background: linear-gradient(145deg, #da190b, #f44336);
+        }
+
+        .btn.warning {
+            background: linear-gradient(145deg, #ff9800, #e68900);
+        }
+
+        .btn.warning:hover {
+            background: linear-gradient(145deg, #e68900, #ff9800);
+        }
+
+        .sensor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .sensor-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .sensor-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #ffffff;
+        }
+
+        .gauge {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 8px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            margin: 10px auto;
+        }
+
+        .gauge-fill {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            background: conic-gradient(from 0deg, #00ff88 0%, #ffaa00 70%, #ff4444 100%);
+            mask: radial-gradient(circle, transparent 60%, black 61%);
+        }
+
+        .system-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .alarm-panel {
+            background: rgba(255, 0, 0, 0.1);
+            border: 2px solid rgba(255, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .alarm-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .alarm-item:last-child {
+            border-bottom: none;
+        }
+
+        .chart-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            height: 300px;
+            position: relative;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        .energy-display {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .energy-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .energy-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #00ff88;
+            margin: 10px 0;
+        }
+
+        .maintenance-status {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+        }
+
+        .maintenance-item {
+            flex: 1;
+            margin: 0 5px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .zone-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .status-bar {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .zone-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .control-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>HVAC Control System - Web HMI</h1>
+            <p>Real-time Monitoring and Control Interface</p>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="status-item">
+                <div class="status-light online" id="plc-status"></div>
+                <span>PLC Status: <span id="plc-status-text">Online</span></span>
+            </div>
+            <div class="status-item">
+                <div class="status-light online" id="system-status"></div>
+                <span>System Status: <span id="system-status-text">Running</span></span>
+            </div>
+            <div class="status-item">
+                <span>Last Update: <span id="last-update">--:--:--</span></span>
+            </div>
+            <div class="status-item">
+                <span>Active Alarms: <span id="active-alarms">0</span></span>
+            </div>
+        </div>
+
+        <!-- Control Grid -->
+        <div class="control-grid">
+            <!-- Zone Temperature Control -->
+            <div class="control-panel">
+                <h3>🌡️ Zone Temperature Control</h3>
+                <div class="zone-grid">
+                    <div class="zone-card" data-zone="1">
+                        <h4>Zone 1 - Office</h4>
+                        <div class="temperature-display" id="temp-zone-1">22.5°C</div>
+                        <div class="setpoint-control">
+                            <button class="btn" onclick="adjustSetpoint(1, -1)">-</button>
+                            <span id="setpoint-zone-1">22.0°C</span>
+                            <button class="btn" onclick="adjustSetpoint(1, 1)">+</button>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="zone-1-enable" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="zone-card" data-zone="2">
+                        <h4>Zone 2 - Conference</h4>
+                        <div class="temperature-display" id="temp-zone-2">21.8°C</div>
+                        <div class="setpoint-control">
+                            <button class="btn" onclick="adjustSetpoint(2, -1)">-</button>
+                            <span id="setpoint-zone-2">22.0°C</span>
+                            <button class="btn" onclick="adjustSetpoint(2, 1)">+</button>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="zone-2-enable" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="zone-card" data-zone="3">
+                        <h4>Zone 3 - Production</h4>
+                        <div class="temperature-display" id="temp-zone-3">23.1°C</div>
+                        <div class="setpoint-control">
+                            <button class="btn" onclick="adjustSetpoint(3, -1)">-</button>
+                            <span id="setpoint-zone-3">23.0°C</span>
+                            <button class="btn" onclick="adjustSetpoint(3, 1)">+</button>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="zone-3-enable" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="zone-card" data-zone="4">
+                        <h4>Zone 4 - Storage</h4>
+                        <div class="temperature-display" id="temp-zone-4">20.5°C</div>
+                        <div class="setpoint-control">
+                            <button class="btn" onclick="adjustSetpoint(4, -1)">-</button>
+                            <span id="setpoint-zone-4">20.0°C</span>
+                            <button class="btn" onclick="adjustSetpoint(4, 1)">+</button>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="zone-4-enable">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="zone-card" data-zone="5">
+                        <h4>Zone 5 - Lobby</h4>
+                        <div class="temperature-display" id="temp-zone-5">22.3°C</div>
+                        <div class="setpoint-control">
+                            <button class="btn" onclick="adjustSetpoint(5, -1)">-</button>
+                            <span id="setpoint-zone-5">22.0°C</span>
+                            <button class="btn" onclick="adjustSetpoint(5, 1)">+</button>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="zone-5-enable" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="zone-card" data-zone="6">
+                        <h4>Zone 6 - Kitchen</h4>
+                        <div class="temperature-display" id="temp-zone-6">24.2°C</div>
+                        <div class="setpoint-control">
+                            <button class="btn" onclick="adjustSetpoint(6, -1)">-</button>
+                            <span id="setpoint-zone-6">24.0°C</span>
+                            <button class="btn" onclick="adjustSetpoint(6, 1)">+</button>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="zone-6-enable" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="zone-card" data-zone="7">
+                        <h4>Zone 7 - Server Room</h4>
+                        <div class="temperature-display" id="temp-zone-7">18.5°C</div>
+                        <div class="setpoint-control">
+                            <button class="btn" onclick="adjustSetpoint(7, -1)">-</button>
+                            <span id="setpoint-zone-7">18.0°C</span>
+                            <button class="btn" onclick="adjustSetpoint(7, 1)">+</button>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="zone-7-enable" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="zone-card" data-zone="8">
+                        <h4>Zone 8 - Warehouse</h4>
+                        <div class="temperature-display" id="temp-zone-8">19.8°C</div>
+                        <div class="setpoint-control">
+                            <button class="btn" onclick="adjustSetpoint(8, -1)">-</button>
+                            <span id="setpoint-zone-8">20.0°C</span>
+                            <button class="btn" onclick="adjustSetpoint(8, 1)">+</button>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="zone-8-enable">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Control -->
+            <div class="control-panel">
+                <h3>⚙️ System Control</h3>
+                <div class="system-controls">
+                    <button class="btn" onclick="systemControl('start')">🟢 Start System</button>
+                    <button class="btn warning" onclick="systemControl('stop')">🟡 Stop System</button>
+                    <button class="btn danger" onclick="systemControl('emergency')">🔴 Emergency Stop</button>
+                </div>
+                <div class="system-controls">
+                    <button class="btn" onclick="toggleMode('auto')">Auto Mode</button>
+                    <button class="btn" onclick="toggleMode('manual')">Manual Mode</button>
+                    <button class="btn" onclick="toggleMode('maintenance')">Maintenance Mode</button>
+                </div>
+            </div>
+
+            <!-- Air Quality Monitoring -->
+            <div class="control-panel">
+                <h3>🌬️ Air Quality</h3>
+                <div class="sensor-grid">
+                    <div class="sensor-card">
+                        <h4>CO₂ Level</h4>
+                        <div class="sensor-value" id="co2-level">425 ppm</div>
+                        <div class="gauge">
+                            <div class="gauge-fill" style="background: conic-gradient(from 0deg, #00ff88 0deg, #00ff88 120deg, transparent 120deg);"></div>
+                        </div>
+                    </div>
+                    <div class="sensor-card">
+                        <h4>Humidity</h4>
+                        <div class="sensor-value" id="humidity-level">45%</div>
+                        <div class="gauge">
+                            <div class="gauge-fill" style="background: conic-gradient(from 0deg, #00ff88 0deg, #00ff88 162deg, transparent 162deg);"></div>
+                        </div>
+                    </div>
+                    <div class="sensor-card">
+                        <h4>Air Pressure</h4>
+                        <div class="sensor-value" id="pressure-level">1013 mbar</div>
+                        <div class="gauge">
+                            <div class="gauge-fill" style="background: conic-gradient(from 0deg, #00ff88 0deg, #00ff88 180deg, transparent 180deg);"></div>
+                        </div>
+                    </div>
+                    <div class="sensor-card">
+                        <h4>VOC Level</h4>
+                        <div class="sensor-value" id="voc-level">15 ppb</div>
+                        <div class="gauge">
+                            <div class="gauge-fill" style="background: conic-gradient(from 0deg, #00ff88 0deg, #00ff88 54deg, transparent 54deg);"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Energy Management -->
+            <div class="control-panel">
+                <h3>⚡ Energy Management</h3>
+                <div class="energy-display">
+                    <div class="energy-card">
+                        <h4>Current Power</h4>
+                        <div class="energy-value" id="current-power">15.2 kW</div>
+                    </div>
+                    <div class="energy-card">
+                        <h4>Daily Usage</h4>
+                        <div class="energy-value" id="daily-usage">234 kWh</div>
+                    </div>
+                    <div class="energy-card">
+                        <h4>Efficiency</h4>
+                        <div class="energy-value" id="efficiency">87%</div>
+                    </div>
+                    <div class="energy-card">
+                        <h4>Cost Today</h4>
+                        <div class="energy-value" id="cost-today">$23.45</div>
+                    </div>
+                </div>
+                <div class="system-controls">
+                    <button class="btn" onclick="energyMode('eco')">Eco Mode</button>
+                    <button class="btn" onclick="energyMode('comfort')">Comfort Mode</button>
+                    <button class="btn" onclick="energyMode('performance')">Performance Mode</button>
+                </div>
+            </div>
+
+            <!-- Maintenance Status -->
+            <div class="control-panel">
+                <h3>🔧 Maintenance Status</h3>
+                <div class="maintenance-status">
+                    <div class="maintenance-item">
+                        <h4>Filters</h4>
+                        <div class="status-light warning"></div>
+                        <p>Due in 5 days</p>
+                    </div>
+                    <div class="maintenance-item">
+                        <h4>Calibration</h4>
+                        <div class="status-light online"></div>
+                        <p>OK</p>
+                    </div>
+                    <div class="maintenance-item">
+                        <h4>Inspection</h4>
+                        <div class="status-light online"></div>
+                        <p>OK</p>
+                    </div>
+                </div>
+                <button class="btn" onclick="openMaintenanceSchedule()">View Schedule</button>
+            </div>
+        </div>
+
+        <!-- Alarms Panel -->
+        <div class="alarm-panel" id="alarm-panel" style="display: none;">
+            <h3>🚨 Active Alarms</h3>
+            <div id="alarm-list">
+                <!-- Alarms will be populated here -->
+            </div>
+        </div>
+
+        <!-- Chart Container -->
+        <div class="chart-container">
+            <h3>📊 Temperature Trends (Last 24 Hours)</h3>
+            <canvas id="temperature-chart" width="100%" height="200"></canvas>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>&copy; 2024 HVAC Control System | Real-time Web HMI Interface</p>
+            <p>Version 1.0 | Last System Check: <span id="system-check-time">--:--:--</span></p>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let systemData = {
+            zones: {},
+            airQuality: {},
+            energy: {},
+            alarms: [],
+            lastUpdate: new Date()
+        };
+
+        // Initialize the system
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeSystem();
+            startDataUpdates();
+        });
+
+        function initializeSystem() {
+            console.log('Initializing HVAC Web HMI System...');
+            updateSystemStatus();
+            updateTimestamp();
+            
+            // Initialize zone data
+            for (let i = 1; i <= 8; i++) {
+                systemData.zones[i] = {
+                    temperature: 20 + Math.random() * 5,
+                    setpoint: 22,
+                    enabled: i <= 7,
+                    mode: 'auto'
+                };
+            }
+            
+            updateDisplay();
+        }
+
+        function startDataUpdates() {
+            // Update data every 5 seconds
+            setInterval(function() {
+                simulateDataUpdate();
+                updateDisplay();
+                updateTimestamp();
+            }, 5000);
+        }
+
+        function simulateDataUpdate() {
+            // Simulate temperature fluctuations
+            for (let i = 1; i <= 8; i++) {
+                if (systemData.zones[i]) {
+                    systemData.zones[i].temperature += (Math.random() - 0.5) * 0.5;
+                    systemData.zones[i].temperature = Math.max(15, Math.min(30, systemData.zones[i].temperature));
+                }
+            }
+
+            // Simulate air quality changes
+            systemData.airQuality = {
+                co2: 400 + Math.random() * 200,
+                humidity: 40 + Math.random() * 20,
+                pressure: 1010 + Math.random() * 10,
+                voc: 10 + Math.random() * 20
+            };
+
+            // Simulate energy data
+            systemData.energy = {
+                currentPower: 12 + Math.random() * 8,
+                dailyUsage: 200 + Math.random() * 100,
+                efficiency: 80 + Math.random() * 15,
+                costToday: 18 + Math.random() * 12
+            };
+
+            systemData.lastUpdate = new Date();
+        }
+
+        function updateDisplay() {
+            // Update zone temperatures
+            for (let i = 1; i <= 8; i++) {
+                if (systemData.zones[i]) {
+                    const tempElement = document.getElementById(`temp-zone-${i}`);
+                    if (tempElement) {
+                        tempElement.textContent = systemData.zones[i].temperature.toFixed(1) + '°C';
+                    }
+                }
+            }
+
+            // Update air quality
+            const co2Element = document.getElementById('co2-level');
+            if (co2Element && systemData.airQuality.co2) {
+                co2Element.textContent = Math.round(systemData.airQuality.co2) + ' ppm';
+            }
+
+            const humidityElement = document.getElementById('humidity-level');
+            if (humidityElement && systemData.airQuality.humidity) {
+                humidityElement.textContent = Math.round(systemData.airQuality.humidity) + '%';
+            }
+
+            const pressureElement = document.getElementById('pressure-level');
+            if (pressureElement && systemData.airQuality.pressure) {
+                pressureElement.textContent = Math.round(systemData.airQuality.pressure) + ' mbar';
+            }
+
+            const vocElement = document.getElementById('voc-level');
+            if (vocElement && systemData.airQuality.voc) {
+                vocElement.textContent = Math.round(systemData.airQuality.voc) + ' ppb';
+            }
+
+            // Update energy data
+            const powerElement = document.getElementById('current-power');
+            if (powerElement && systemData.energy.currentPower) {
+                powerElement.textContent = systemData.energy.currentPower.toFixed(1) + ' kW';
+            }
+
+            const usageElement = document.getElementById('daily-usage');
+            if (usageElement && systemData.energy.dailyUsage) {
+                usageElement.textContent = Math.round(systemData.energy.dailyUsage) + ' kWh';
+            }
+
+            const efficiencyElement = document.getElementById('efficiency');
+            if (efficiencyElement && systemData.energy.efficiency) {
+                efficiencyElement.textContent = Math.round(systemData.energy.efficiency) + '%';
+            }
+
+            const costElement = document.getElementById('cost-today');
+            if (costElement && systemData.energy.costToday) {
+                costElement.textContent = '$' + systemData.energy.costToday.toFixed(2);
+            }
+        }
+
+        function updateTimestamp() {
+            const lastUpdateElement = document.getElementById('last-update');
+            const systemCheckElement = document.getElementById('system-check-time');
+            const currentTime = new Date().toLocaleTimeString();
+            
+            if (lastUpdateElement) {
+                lastUpdateElement.textContent = currentTime;
+            }
+            if (systemCheckElement) {
+                systemCheckElement.textContent = currentTime;
+            }
+        }
+
+        function updateSystemStatus() {
+            const plcStatusElement = document.getElementById('plc-status-text');
+            const systemStatusElement = document.getElementById('system-status-text');
+            
+            if (plcStatusElement) {
+                plcStatusElement.textContent = 'Online';
+            }
+            if (systemStatusElement) {
+                systemStatusElement.textContent = 'Running';
+            }
+        }
+
+        function adjustSetpoint(zone, change) {
+            if (systemData.zones[zone]) {
+                systemData.zones[zone].setpoint += change;
+                systemData.zones[zone].setpoint = Math.max(15, Math.min(30, systemData.zones[zone].setpoint));
+                
+                const setpointElement = document.getElementById(`setpoint-zone-${zone}`);
+                if (setpointElement) {
+                    setpointElement.textContent = systemData.zones[zone].setpoint.toFixed(1) + '°C';
+                }
+                
+                console.log(`Zone ${zone} setpoint adjusted to ${systemData.zones[zone].setpoint}°C`);
+            }
+        }
+
+        function systemControl(action) {
+            console.log(`System control action: ${action}`);
+            
+            switch(action) {
+                case 'start':
+                    alert('System starting...');
+                    break;
+                case 'stop':
+                    alert('System stopping...');
+                    break;
+                case 'emergency':
+                    if (confirm('Emergency stop initiated! This will shut down all HVAC operations. Continue?')) {
+                        alert('Emergency stop activated!');
+                    }
+                    break;
+            }
+        }
+
+        function toggleMode(mode) {
+            console.log(`System mode changed to: ${mode}`);
+            alert(`System switched to ${mode} mode`);
+        }
+
+        function energyMode(mode) {
+            console.log(`Energy mode changed to: ${mode}`);
+            alert(`Energy management switched to ${mode} mode`);
+        }
+
+        function openMaintenanceSchedule() {
+            alert('Opening maintenance schedule...\n\nUpcoming Tasks:\n- Filter replacement in 5 days\n- Monthly inspection in 12 days\n- Calibration check in 25 days');
+        }
+
+        // Error handling
+        window.addEventListener('error', function(e) {
+            console.error('JavaScript error:', e.error);
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey) {
+                switch(e.key) {
+                    case 'r':
+                        e.preventDefault();
+                        location.reload();
+                        break;
+                    case 's':
+                        e.preventDefault();
+                        systemControl('start');
+                        break;
+                }
+            }
+        });
+
+        console.log('HVAC Web HMI Interface loaded successfully');
+    </script>
+</body>
+</html>
