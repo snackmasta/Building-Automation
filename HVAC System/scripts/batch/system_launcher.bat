@@ -105,7 +105,9 @@ goto menu
 :generate_diagrams
 echo.
 echo Generating System Diagrams...
-if exist "utils\hvac_diagram_new.py" (
+if exist "tests\regenerate_diagrams.py" (
+    python tests\regenerate_diagrams.py
+) else if exist "utils\hvac_diagram_new.py" (
     python utils\hvac_diagram_new.py
     echo Diagrams generated successfully!
 ) else if exist "utils\hvac_diagram.py" (
@@ -115,12 +117,16 @@ if exist "utils\hvac_diagram_new.py" (
     echo Diagram generator not found. Creating placeholder...
     echo System diagrams would be generated here > diagrams\placeholder.txt
 )
+echo.
+echo You can view the diagrams by opening: diagrams\index.html
 goto menu
 
 :verify_system
 echo.
 echo Running System Verification...
-if exist "utils\verification\verify_system.py" (
+if exist "tests\test_final_verification_fixed.py" (
+    python tests\test_final_verification_fixed.py
+) else if exist "utils\verification\verify_system.py" (
     python utils\verification\verify_system.py
 ) else (
     echo Verification script not found. System appears ready.

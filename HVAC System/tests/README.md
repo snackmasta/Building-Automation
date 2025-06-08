@@ -123,6 +123,26 @@ python tests\maintain_reports.py --remove-duplicates
 - **Summary Reports:** Auto-generated analysis
 - **Total Report Files:** 14+ organized files
 
+## Diagram Management Tools
+- **`regenerate_diagrams.py`** - Regenerate and verify all system diagrams
+
+## Diagram Management
+
+### Regenerating System Diagrams
+```powershell
+# Regenerate all diagrams
+cd "c:\Users\Legion\Desktop\PLC\HVAC System"
+python tests\regenerate_diagrams.py
+
+# Only verify existing diagrams
+python tests\regenerate_diagrams.py --verify-only
+```
+
+### Viewing Diagrams
+- Open `diagrams/index.html` in a web browser
+- All diagrams are in PNG format in the `diagrams/` directory
+- Diagrams include: system overview, zone layout, piping, electrical, control flow, air flow, energy flow, sensor network, safety systems, and maintenance points
+
 ## Notes
 
 - All test reports are automatically timestamped

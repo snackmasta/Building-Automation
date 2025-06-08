@@ -1,0 +1,209 @@
+{
+  "timestamp": "2025-06-08T11:06:17.566511",
+  "system_info": {
+    "platform": "Windows-10-10.0.22000-SP0",
+    "python_version": "3.10.6 (tags/v3.10.6:9c7b4bd, Aug  1 2022, 21:53:49) [MSC v.1932 64 bit (AMD64)]",
+    "base_path": "C:\\Users\\Legion\\Desktop\\PLC\\HVAC System\\tests",
+    "working_directory": "C:\\Users\\Legion\\Desktop\\PLC\\HVAC System\\tests"
+  },
+  "checks": [
+    {
+      "name": "Directory: config",
+      "category": "Directory Structure",
+      "status": "FAIL",
+      "message": "Directory missing"
+    },
+    {
+      "name": "Auto-create: config",
+      "category": "Directory Structure",
+      "status": "PASS",
+      "message": "Directory created automatically"
+    },
+    {
+      "name": "Directory: scripts",
+      "category": "Directory Structure",
+      "status": "FAIL",
+      "message": "Directory missing"
+    },
+    {
+      "name": "Auto-create: scripts",
+      "category": "Directory Structure",
+      "status": "PASS",
+      "message": "Directory created automatically"
+    },
+    {
+      "name": "Directory: scripts/batch",
+      "category": "Directory Structure",
+      "status": "FAIL",
+      "message": "Directory missing"
+    },
+    {
+      "name": "Auto-create: scripts/batch",
+      "category": "Directory Structure",
+      "status": "PASS",
+      "message": "Directory created automatically"
+    },
+    {
+      "name": "Directory: scripts/python",
+      "category": "Directory Structure",
+      "status": "FAIL",
+      "message": "Directory missing"
+    },
+    {
+      "name": "Auto-create: scripts/python",
+      "category": "Directory Structure",
+      "status": "PASS",
+      "message": "Directory created automatically"
+    },
+    {
+      "name": "Directory: docs",
+      "category": "Directory Structure",
+      "status": "FAIL",
+      "message": "Directory missing"
+    },
+    {
+      "name": "Auto-create: docs",
+      "category": "Directory Structure",
+      "status": "PASS",
+      "message": "Directory created automatically"
+    },
+    {
+      "name": "Directory: wiki",
+      "category": "Directory Structure",
+      "status": "FAIL",
+      "message": "Directory missing"
+    },
+    {
+      "name": "Auto-create: wiki",
+      "category": "Directory Structure",
+      "status": "PASS",
+      "message": "Directory created automatically"
+    },
+    {
+      "name": "Directory: wiki/pages",
+      "category": "Directory Structure",
+      "status": "FAIL",
+      "message": "Directory missing"
+    },
+    {
+      "name": "Auto-create: wiki/pages",
+      "category": "Directory Structure",
+      "status": "PASS",
+      "message": "Directory created automatically"
+    },
+    {
+      "name": "Directory: wiki/templates",
+      "category": "Directory Structure",
+      "status": "FAIL",
+      "message": "Directory missing"
+    },
+    {
+      "name": "Auto-create: wiki/templates",
+      "category": "Directory Structure",
+      "status": "PASS",
+      "message": "Directory created automatically"
+    },
+    {
+      "name": "Directory: logs",
+      "category": "Directory Structure",
+      "status": "FAIL",
+      "message": "Directory missing"
+    },
+    {
+      "name": "Auto-create: logs",
+      "category": "Directory Structure",
+      "status": "PASS",
+      "message": "Directory created automatically"
+    },
+    {
+      "name": "Directory: utils",
+      "category": "Directory Structure",
+      "status": "FAIL",
+      "message": "Directory missing"
+    },
+    {
+      "name": "Auto-create: utils",
+      "category": "Directory Structure",
+      "status": "PASS",
+      "message": "Directory created automatically"
+    },
+    {
+      "name": "Directory: data",
+      "category": "Directory Structure",
+      "status": "FAIL",
+      "message": "Directory missing"
+    },
+    {
+      "name": "Auto-create: data",
+      "category": "Directory Structure",
+      "status": "PASS",
+      "message": "Directory created automatically"
+    },
+    {
+      "name": "Directory: backup",
+      "category": "Directory Structure",
+      "status": "FAIL",
+      "message": "Directory missing"
+    },
+    {
+      "name": "Auto-create: backup",
+      "category": "Directory Structure",
+      "status": "PASS",
+      "message": "Directory created automatically"
+    },
+    {
+      "name": "PLC Configuration File",
+      "category": "Core Files",
+      "status": "FAIL",
+      "message": "File missing"
+    },
+    {
+      "name": "HMI Configuration File",
+      "category": "Core Files",
+      "status": "FAIL",
+      "message": "File missing"
+    },
+    {
+      "name": "Main Controller Script",
+      "category": "Core Files",
+      "status": "FAIL",
+      "message": "File missing"
+    },
+    {
+      "name": "System Status Monitor",
+      "category": "Core Files",
+      "status": "FAIL",
+      "message": "File missing"
+    },
+    {
+      "name": "Web HMI Interface",
+      "category": "Core Files",
+      "status": "FAIL",
+      "message": "File missing"
+    },
+    {
+      "name": "Maintenance Manual",
+      "category": "Core Files",
+      "status": "FAIL",
+      "message": "File missing"
+    },
+    {
+      "name": "Wiki Home Page",
+      "category": "Core Files",
+      "status": "FAIL",
+      "message": "File missing"
+    },
+    {
+      "name": "PLC Configuration",
+      "category": "Configuration",
+      "status": "FAIL",
+      "message": "Configuration file missing"
+    }
+  ],
+  "summary": {
+    "pass": 12,
+    "fail": 20,
+    "warning": 0,
+    "total": 32
+  }
+}
