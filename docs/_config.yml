@@ -1,0 +1,70 @@
+# GitHub Pages Configuration for PLC Automation Repository
+
+# Theme
+theme: minima
+
+# Site Settings
+title: "Industrial PLC Control Systems"
+description: "Comprehensive documentation for industrial automation projects including HVAC, Water Treatment, and PLC programming examples"
+baseurl: ""
+url: ""
+
+# Navigation
+header_pages:
+  - index.md
+  - guides/Repository-Overview.md
+  - guides/Quick-Start-Guide.md
+  - guides/Project-Comparison.md
+
+# Collections
+collections:
+  projects:
+    output: true
+    permalink: /:collection/:name/
+  technical:
+    output: true
+    permalink: /:collection/:name/
+  development:
+    output: true
+    permalink: /:collection/:name/
+  operations:
+    output: true
+    permalink: /:collection/:name/
+  reference:
+    output: true
+    permalink: /:collection/:name/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "page"
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Markdown
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  syntax_highlighter: rouge
+
+# Exclude
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/

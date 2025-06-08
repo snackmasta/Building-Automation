@@ -2,6 +2,16 @@
 
 A comprehensive collection of industrial automation projects featuring advanced PLC control systems, HMI interfaces, and process simulation tools. This repository demonstrates professional-grade industrial automation solutions following industry best practices.
 
+## 📖 Documentation
+
+**📚 Complete Wiki & Documentation**: Visit our [comprehensive documentation site](docs/) for detailed guides, technical references, and project information.
+
+**🚀 Quick Links**:
+- **[Getting Started Guide](docs/guides/Quick-Start-Guide.md)** - 5-minute setup
+- **[Project Overview](docs/guides/Repository-Overview.md)** - Detailed project analysis  
+- **[Technical Documentation](docs/technical/)** - PLC programming and system architecture
+- **[Operation Manuals](docs/operations/)** - Standard procedures and troubleshooting
+
 ## 🏭 Repository Overview
 
 This repository contains three complete industrial automation projects:
