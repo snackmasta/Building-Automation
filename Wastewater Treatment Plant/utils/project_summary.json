@@ -1,0 +1,207 @@
+{
+  "project_name": "Wastewater Treatment Plant",
+  "description": "Automated wastewater treatment plant control system",
+  "generation_time": "2025-06-08 17:52:14",
+  "version": "1.0",
+  "file_statistics": {
+    "total_files": 72,
+    "total_lines": 16781,
+    "by_type": {
+      ".md": {
+        "count": 5,
+        "lines": 2160
+      },
+      ".ini": {
+        "count": 2,
+        "lines": 176
+      },
+      ".png": {
+        "count": 4,
+        "lines": 0
+      },
+      ".pdf": {
+        "count": 1,
+        "lines": 0
+      },
+      ".st": {
+        "count": 7,
+        "lines": 1210
+      },
+      ".json": {
+        "count": 11,
+        "lines": 0
+      },
+      ".bat": {
+        "count": 8,
+        "lines": 960
+      },
+      ".py": {
+        "count": 23,
+        "lines": 11164
+      },
+      ".pyc": {
+        "count": 8,
+        "lines": 0
+      },
+      ".html": {
+        "count": 1,
+        "lines": 983
+      },
+      ".txt": {
+        "count": 2,
+        "lines": 128
+      }
+    }
+  },
+  "folder_structure": [
+    {
+      "path": ".",
+      "depth": 0,
+      "dirs": 9,
+      "files": 2
+    },
+    {
+      "path": "config",
+      "depth": 1,
+      "dirs": 0,
+      "files": 2
+    },
+    {
+      "path": "diagrams",
+      "depth": 1,
+      "dirs": 0,
+      "files": 5
+    },
+    {
+      "path": "docs",
+      "depth": 1,
+      "dirs": 2,
+      "files": 0
+    },
+    {
+      "path": "docs\\technical",
+      "depth": 2,
+      "dirs": 0,
+      "files": 1
+    },
+    {
+      "path": "docs\\user",
+      "depth": 2,
+      "dirs": 0,
+      "files": 2
+    },
+    {
+      "path": "plc",
+      "depth": 1,
+      "dirs": 0,
+      "files": 7
+    },
+    {
+      "path": "reports",
+      "depth": 1,
+      "dirs": 0,
+      "files": 9
+    },
+    {
+      "path": "scripts",
+      "depth": 1,
+      "dirs": 1,
+      "files": 0
+    },
+    {
+      "path": "scripts\\batch",
+      "depth": 2,
+      "dirs": 0,
+      "files": 8
+    },
+    {
+      "path": "src",
+      "depth": 1,
+      "dirs": 5,
+      "files": 1
+    },
+    {
+      "path": "src\\core",
+      "depth": 2,
+      "dirs": 1,
+      "files": 7
+    },
+    {
+      "path": "src\\core\\__pycache__",
+      "depth": 3,
+      "dirs": 0,
+      "files": 6
+    },
+    {
+      "path": "src\\gui",
+      "depth": 2,
+      "dirs": 1,
+      "files": 1
+    },
+    {
+      "path": "src\\gui\\web",
+      "depth": 3,
+      "dirs": 0,
+      "files": 2
+    },
+    {
+      "path": "src\\monitoring",
+      "depth": 2,
+      "dirs": 0,
+      "files": 0
+    },
+    {
+      "path": "src\\simulation",
+      "depth": 2,
+      "dirs": 0,
+      "files": 1
+    },
+    {
+      "path": "src\\__pycache__",
+      "depth": 2,
+      "dirs": 0,
+      "files": 1
+    },
+    {
+      "path": "tests",
+      "depth": 1,
+      "dirs": 1,
+      "files": 2
+    },
+    {
+      "path": "tests\\__pycache__",
+      "depth": 2,
+      "dirs": 0,
+      "files": 1
+    },
+    {
+      "path": "utils",
+      "depth": 1,
+      "dirs": 1,
+      "files": 7
+    },
+    {
+      "path": "utils\\verification",
+      "depth": 2,
+      "dirs": 0,
+      "files": 7
+    }
+  ],
+  "implementation_status": {
+    "PLC Programs": "Complete",
+    "HMI Interface": "Partial",
+    "Documentation": "Partial",
+    "Diagrams": "Complete",
+    "Simulation": "Partial",
+    "Configuration": "Partial",
+    "Test Cases": "Partial",
+    "System Scripts": "Partial",
+    "Overall": "Functional"
+  },
+  "additional_info": {
+    "development_start": "May 2025",
+    "projected_completion": "July 2025",
+    "project_type": "Industrial Automation",
+    "complexity": "High"
+  }
+}

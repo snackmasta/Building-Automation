@@ -1,0 +1,284 @@
+{
+  "overall_status": "failed",
+  "test_categories": {
+    "Controller Functionality": {
+      "status": "passed",
+      "score": 100.0,
+      "tests_passed": 11,
+      "tests_total": 11,
+      "detailed_tests": [
+        {
+          "test": "Intake Flow Regulation",
+          "passed": true,
+          "details": "Flow output: 71.0%"
+        },
+        {
+          "test": "Screen Control Logic",
+          "passed": true,
+          "details": "Screen cleaning needed: True"
+        },
+        {
+          "test": "Pump Control",
+          "passed": true,
+          "details": "Pump status: {'pump_id': 'P101', 'enabled': True, 'speed': 75, 'current': 41.25, 'flow': 150.0}"
+        },
+        {
+          "test": "Primary Clarifier Control",
+          "passed": true,
+          "details": "Clarifier commands: {'scraper_speed': 1.5, 'sludge_pump_speed': 5, 'skimmer_active': True, 'overflow_rate': 0.47770700636942676}"
+        },
+        {
+          "test": "Sludge Removal Calculation",
+          "passed": true,
+          "details": "Sludge removal rate: 10 m\u00b3/h"
+        },
+        {
+          "test": "Blower Speed Control",
+          "passed": true,
+          "details": "Blower speed: 70.5%"
+        },
+        {
+          "test": "Blower Load Distribution",
+          "passed": true,
+          "details": "Blower commands: 3 blowers"
+        },
+        {
+          "test": "Coagulant Dosing",
+          "passed": true,
+          "details": "Coagulant dose: 5.2 mg/L"
+        },
+        {
+          "test": "Disinfection Dosing",
+          "passed": true,
+          "details": "Disinfection dose: 2.5 mg/L"
+        },
+        {
+          "test": "Sensor Data Collection",
+          "passed": true,
+          "details": "Sensor groups: 7"
+        },
+        {
+          "test": "Alarm Processing",
+          "passed": true,
+          "details": "Alarms processed: 1"
+        }
+      ]
+    },
+    "Process Control Logic": {
+      "status": "passed",
+      "score": 100.0,
+      "tests_passed": 4,
+      "tests_total": 4,
+      "detailed_tests": [
+        {
+          "test": "Process Control Cascade",
+          "passed": true,
+          "details": "Pump: 81.5%, Blower: 63.5%"
+        },
+        {
+          "test": "Load Balancing",
+          "passed": true,
+          "details": "Active blowers: 3/3"
+        },
+        {
+          "test": "Chemical Dosing Coordination",
+          "passed": true,
+          "details": "Coagulant: 10.4, Flocculant: 1.0"
+        },
+        {
+          "test": "Treatment Efficiency Calculation",
+          "passed": true,
+          "details": "Efficiencies: {'turbidity_removal': 90.0, 'tss_removal': 92.5, 'bod_removal': 92.0}"
+        }
+      ]
+    },
+    "Safety Systems": {
+      "status": "failed",
+      "score": 25.0,
+      "tests_passed": 1,
+      "tests_total": 4,
+      "detailed_tests": [
+        {
+          "test": "High Level Emergency Shutdown",
+          "passed": false,
+          "details": "Emergency flow output: 71.0%"
+        },
+        {
+          "test": "Low DO Alarm System",
+          "passed": true,
+          "details": "Alarm severity: high"
+        },
+        {
+          "test": "Blower Failure Detection",
+          "passed": false,
+          "details": "Actions: ['increase_aeration']"
+        },
+        {
+          "test": "Chemical Tank Low Level Alarm",
+          "passed": false,
+          "details": "Emergency alerts: []"
+        }
+      ]
+    },
+    "Data Integration": {
+      "status": "failed",
+      "score": 0,
+      "tests_passed": 0,
+      "tests_total": 1,
+      "error": "module 'math' has no attribute 'random'"
+    },
+    "Performance Metrics": {
+      "status": "failed",
+      "score": 50.0,
+      "tests_passed": 2,
+      "tests_total": 4,
+      "detailed_tests": [
+        {
+          "test": "Turbidity Removal Efficiency",
+          "passed": true,
+          "details": "Efficiency: 90.4%"
+        },
+        {
+          "test": "BOD Removal Efficiency",
+          "passed": false,
+          "details": "Efficiency: 80.0%"
+        },
+        {
+          "test": "Energy Efficiency",
+          "passed": true,
+          "details": "Energy consumption: 0.213 kWh/m\u00b3"
+        },
+        {
+          "test": "Equipment Availability",
+          "passed": false,
+          "details": "Availability: 66.7%"
+        }
+      ]
+    },
+    "Alarm Management": {
+      "status": "passed",
+      "score": 100.0,
+      "tests_passed": 3,
+      "tests_total": 3,
+      "detailed_tests": [
+        {
+          "test": "Alarm Detection",
+          "passed": true,
+          "details": "Alarms detected: 7"
+        },
+        {
+          "test": "Critical Alarm Classification",
+          "passed": true,
+          "details": "Critical alarms: 3"
+        },
+        {
+          "test": "Alarm Prioritization",
+          "passed": true,
+          "details": "Critical alarms identified: 3"
+        }
+      ]
+    },
+    "Chemical Dosing": {
+      "status": "passed",
+      "score": 100.0,
+      "tests_passed": 3,
+      "tests_total": 3,
+      "detailed_tests": [
+        {
+          "test": "Coagulant Dosing Range Validation",
+          "passed": true,
+          "details": "Tested 3 conditions"
+        },
+        {
+          "test": "Chemical Inventory Tracking",
+          "passed": true,
+          "details": "Chemicals tracked: 5"
+        },
+        {
+          "test": "Dosing System Calibration",
+          "passed": true,
+          "details": "Calibration accuracy: 97.5%"
+        }
+      ]
+    },
+    "Energy Efficiency": {
+      "status": "failed",
+      "score": 66.66666666666666,
+      "tests_passed": 2,
+      "tests_total": 3,
+      "detailed_tests": [
+        {
+          "test": "Oxygen Transfer Optimization",
+          "passed": true,
+          "details": "Transfer efficiency: 0.80"
+        },
+        {
+          "test": "Blower Energy Efficiency",
+          "passed": false,
+          "details": "Efficiency: 0.0 m\u00b3/h per kW"
+        },
+        {
+          "test": "Load Optimization",
+          "passed": true,
+          "details": "Active blowers: 0/3"
+        }
+      ]
+    },
+    "Compliance Monitoring": {
+      "status": "warning",
+      "score": 75.0,
+      "tests_passed": 3,
+      "tests_total": 4,
+      "detailed_tests": [
+        {
+          "test": "pH Compliance",
+          "passed": true,
+          "details": "Compliance status: Pass"
+        },
+        {
+          "test": "TSS Compliance",
+          "passed": true,
+          "details": "Compliance status: Pass"
+        },
+        {
+          "test": "Chlorine Residual Compliance",
+          "passed": true,
+          "details": "Compliance status: Pass"
+        },
+        {
+          "test": "Treatment Efficiency Compliance",
+          "passed": false,
+          "details": "Turbidity: 90.4%, BOD: 80.0%"
+        }
+      ]
+    },
+    "System Reliability": {
+      "status": "failed",
+      "score": 0,
+      "tests_passed": 0,
+      "tests_total": 1,
+      "error": "module 'math' has no attribute 'random'"
+    }
+  },
+  "detailed_results": [],
+  "summary": {
+    "overall_score": 61.666666666666664,
+    "tests_passed": 29,
+    "tests_total": 38,
+    "categories_passed": 4,
+    "categories_warning": 1,
+    "categories_failed": 5,
+    "categories_total": 10
+  },
+  "recommendations": [
+    "CRITICAL: Fix issues in Safety Systems (Score: 25.0%)",
+    "CRITICAL: Fix issues in Data Integration (Score: 0.0%)",
+    "CRITICAL: Fix issues in Performance Metrics (Score: 50.0%)",
+    "CRITICAL: Fix issues in Energy Efficiency (Score: 66.7%)",
+    "IMPROVE: Enhance Compliance Monitoring (Score: 75.0%)",
+    "CRITICAL: Fix issues in System Reliability (Score: 0.0%)",
+    "URGENT: System requires significant improvements before deployment"
+  ],
+  "validation_time": 0.0030007362365722656,
+  "timestamp": "2025-06-08T17:19:16.837102"
+}

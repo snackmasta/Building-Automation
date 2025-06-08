@@ -1,0 +1,213 @@
+{
+  "timestamp": "2025-06-08 17:52:14",
+  "system_status": "Pass",
+  "components": {
+    "System Structure": {
+      "status": "Pass",
+      "checks": [
+        {
+          "check": "Directory exists: plc",
+          "result": "Pass",
+          "critical": true
+        },
+        {
+          "check": "Directory exists: src",
+          "result": "Pass",
+          "critical": true
+        },
+        {
+          "check": "Directory exists: config",
+          "result": "Pass",
+          "critical": true
+        },
+        {
+          "check": "Directory exists: diagrams",
+          "result": "Pass",
+          "critical": false
+        },
+        {
+          "check": "Directory exists: docs",
+          "result": "Pass",
+          "critical": false
+        },
+        {
+          "check": "Directory exists: scripts",
+          "result": "Pass",
+          "critical": true
+        }
+      ]
+    },
+    "Documentation": {
+      "status": "Pass",
+      "checks": [
+        {
+          "check": "File exists: README.md",
+          "result": "Pass",
+          "critical": false
+        }
+      ]
+    },
+    "PLC Program": {
+      "status": "Pass",
+      "checks": [
+        {
+          "check": "File exists: plc/global_vars.st",
+          "result": "Pass",
+          "critical": true
+        },
+        {
+          "check": "File exists: plc/main.st",
+          "result": "Pass",
+          "critical": true
+        },
+        {
+          "check": "File exists: plc/global_vars.st",
+          "result": "Pass",
+          "critical": true
+        },
+        {
+          "check": "File exists: plc/main.st",
+          "result": "Pass",
+          "critical": true
+        },
+        {
+          "check": "File exists: plc/intake_controller.st",
+          "result": "Pass",
+          "critical": true
+        },
+        {
+          "check": "File exists: plc/treatment_controller.st",
+          "result": "Pass",
+          "critical": true
+        },
+        {
+          "check": "File exists: plc/dosing_controller.st",
+          "result": "Pass",
+          "critical": true
+        },
+        {
+          "check": "File exists: plc/aeration_controller.st",
+          "result": "Pass",
+          "critical": true
+        },
+        {
+          "check": "File exists: plc/monitoring_controller.st",
+          "result": "Pass",
+          "critical": true
+        }
+      ]
+    },
+    "Configuration": {
+      "status": "Pass",
+      "checks": [
+        {
+          "check": "File exists: config/plc_config.ini",
+          "result": "Pass",
+          "critical": true
+        },
+        {
+          "check": "File exists: config/wwtp_config.ini",
+          "result": "Pass",
+          "critical": true
+        },
+        {
+          "check": "Config valid: config/plc_config.ini",
+          "result": "Pass",
+          "critical": true
+        },
+        {
+          "check": "Config valid: config/wwtp_config.ini",
+          "result": "Pass",
+          "critical": true
+        }
+      ]
+    },
+    "HMI Interface": {
+      "status": "Pass",
+      "checks": [
+        {
+          "check": "File exists: src/gui/hmi_interface.py",
+          "result": "Pass",
+          "critical": true
+        },
+        {
+          "check": "Python module: tkinter",
+          "result": "Pass",
+          "critical": true
+        },
+        {
+          "check": "Python module: matplotlib",
+          "result": "Pass",
+          "critical": true
+        },
+        {
+          "check": "Python module: configparser",
+          "result": "Pass",
+          "critical": true
+        }
+      ]
+    },
+    "System Scripts": {
+      "status": "Pass",
+      "checks": [
+        {
+          "check": "File exists: scripts/batch/system_launcher.bat",
+          "result": "Pass",
+          "critical": true
+        },
+        {
+          "check": "File exists: scripts/batch/run_hmi.bat",
+          "result": "Pass",
+          "critical": true
+        },
+        {
+          "check": "File exists: scripts/batch/run_simulator.bat",
+          "result": "Pass",
+          "critical": true
+        },
+        {
+          "check": "File exists: scripts/batch/run_status_monitor.bat",
+          "result": "Pass",
+          "critical": true
+        },
+        {
+          "check": "File exists: scripts/batch/generate_diagrams.bat",
+          "result": "Pass",
+          "critical": true
+        }
+      ]
+    },
+    "System Diagrams": {
+      "status": "Pass",
+      "checks": [
+        {
+          "check": "File exists: diagrams/treatment_control_flowchart.png",
+          "result": "Pass",
+          "critical": false
+        },
+        {
+          "check": "File exists: diagrams/system_layout_diagram.png",
+          "result": "Pass",
+          "critical": false
+        },
+        {
+          "check": "File exists: diagrams/p_id_diagram.png",
+          "result": "Pass",
+          "critical": false
+        },
+        {
+          "check": "File exists: diagrams/electrical_schematic.png",
+          "result": "Pass",
+          "critical": false
+        },
+        {
+          "check": "File exists: diagrams/wwtp_system_diagrams.pdf",
+          "result": "Pass",
+          "critical": false
+        }
+      ]
+    }
+  },
+  "errors": [],
+  "warnings": []
+}
