@@ -25,7 +25,8 @@ pip install tkinter matplotlib numpy sqlite3 >nul 2>&1
 
 REM Start the HMI interface
 echo Launching HMI Interface...
-python hmi_interface.py
+cd /d "%~dp0..\.."
+python src\gui\hmi_interface.py
 
 if errorlevel 1 (
     echo.

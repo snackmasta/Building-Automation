@@ -781,12 +781,23 @@ def main():
     
     generator = ProcessDiagramGenerator()
     
-    # Generate diagrams in current directory
-    output_files = generator.generate_all_diagrams()
+    # Get script directory and navigate to project root
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.join(script_dir, "..", "..")
+    diagrams_dir = os.path.join(project_root, "diagrams")
+    
+    # Ensure diagrams directory exists
+    if not os.path.exists(diagrams_dir):
+        os.makedirs(diagrams_dir)
+    
+    # Generate diagrams in diagrams folder
+    output_files = generator.generate_all_diagrams(diagrams_dir)
     
     print("\nGenerated files:")
     for file_path in output_files:
-        print(f"  • {file_path}")
+        # Show relative path from project root
+        rel_path = os.path.relpath(file_path, project_root)
+        print(f"  • {rel_path}")
     
     print("\nDiagram generation complete!")
 

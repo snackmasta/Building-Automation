@@ -30,49 +30,60 @@ def main():
     """Main verification function"""
     print_header("WATER TREATMENT SYSTEM VERIFICATION")
     
+    # Navigate to project root directory
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.join(script_dir, "..", "..")
+    os.chdir(project_root)
+    
     current_dir = os.getcwd()
-    print(f"Current Directory: {current_dir}")
+    print(f"Project Root: {current_dir}")
     print(f"Verification Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     
-    # Define all system files
+    # Define all system files with new structure
     system_files = {
         "PLC Programming Files": [
-            ("global_vars.st", "Global variables and data structures"),
-            ("main.st", "Main PLC control program"),
-            ("desalination_controller.st", "RO process controller"),
-            ("pump_controller.st", "Multi-pump control system"),
-            ("water_quality_controller.st", "Water quality monitoring"),
+            ("plc/global_vars.st", "Global variables and data structures"),
+            ("plc/main.st", "Main PLC control program"),
+            ("plc/desalination_controller.st", "RO process controller"),
+            ("plc/pump_controller.st", "Multi-pump control system"),
+            ("plc/water_quality_controller.st", "Water quality monitoring"),
         ],
         "Python Applications": [
-            ("water_treatment_simulator.py", "Complete system simulator with GUI"),
-            ("hmi_interface.py", "Advanced Python GUI interface"),
-            ("system_status.py", "System monitoring and health assessment"),
-            ("process_diagram.py", "Enhanced diagram generator with flowchart"),
-        ],
+            ("src/simulation/water_treatment_simulator.py", "Complete system simulator with GUI"),
+            ("src/gui/hmi_interface.py", "Advanced Python GUI interface"),
+            ("src/monitoring/system_status.py", "System monitoring and health assessment"),
+            ("src/core/process_diagram.py", "Enhanced diagram generator with flowchart"),        ],
         "Web Interface": [
-            ("web_hmi.html", "Modern web-based dashboard"),
+            ("src/gui/web_hmi.html", "Modern web-based dashboard"),
         ],
         "Configuration Files": [
-            ("plc_config.ini", "System configuration parameters"),
+            ("config/plc_config.ini", "System configuration parameters"),
         ],
         "Documentation": [
-            ("README.md", "Project overview and documentation"),
-            ("System_Documentation.md", "Comprehensive technical documentation"),
+            ("docs/README.md", "Project overview and documentation"),
+            ("docs/System_Documentation.md", "Comprehensive technical documentation"),
+            ("docs/FLOWCHART_IMPLEMENTATION_SUMMARY.md", "Flowchart implementation details"),
+            ("docs/PROJECT_STRUCTURE.md", "Project organization documentation"),
         ],
         "Visual Diagrams": [
-            ("water_treatment_process_diagram.png", "Main process flow diagram"),
-            ("water_treatment_pid.png", "P&ID instrumentation diagram"),
-            ("control_system_architecture.png", "Control system layout"),
-            ("process_control_flowchart.png", "🆕 Detailed control logic flowchart"),
-            ("system_states_diagram.png", "🆕 System state transitions"),
-            ("water_treatment_diagrams.pdf", "Combined PDF with all diagrams"),
+            ("diagrams/water_treatment_process_diagram.png", "Main process flow diagram"),
+            ("diagrams/water_treatment_pid.png", "P&ID instrumentation diagram"),
+            ("diagrams/control_system_architecture.png", "Control system layout"),
+            ("diagrams/process_control_flowchart.png", "🆕 Detailed control logic flowchart"),
+            ("diagrams/system_states_diagram.png", "🆕 System state transitions"),
+            ("diagrams/water_treatment_diagrams.pdf", "Combined PDF with all diagrams"),
         ],
         "System Utilities": [
-            ("system_launcher.bat", "Main system menu"),
-            ("run_hmi.bat", "Launch HMI interface"),
-            ("run_simulator.bat", "Launch system simulator"),
-            ("run_status_monitor.bat", "Launch status monitor"),
-            ("generate_diagrams.bat", "Generate all diagrams"),
+            ("scripts/batch/system_launcher.bat", "Main system menu"),
+            ("scripts/batch/run_hmi.bat", "Launch HMI interface"),
+            ("scripts/batch/run_simulator.bat", "Launch system simulator"),
+            ("scripts/batch/run_status_monitor.bat", "Launch status monitor"),
+            ("scripts/batch/generate_diagrams.bat", "Generate all diagrams"),
+        ],
+        "Verification & Utilities": [
+            ("utils/verification/verify_system.py", "System verification script"),
+            ("utils/final_project_summary.py", "Project summary generator"),
+            ("utils/flowchart_demo.py", "Flowchart demonstration tool"),
         ]
     }
     

@@ -25,7 +25,8 @@ pip install matplotlib numpy >nul 2>&1
 
 REM Generate diagrams
 echo Creating process flow diagrams...
-python process_diagram.py
+cd /d "%~dp0..\.."
+python src\core\process_diagram.py
 
 if errorlevel 1 (
     echo.
@@ -38,16 +39,16 @@ if errorlevel 1 (
 echo.
 echo Diagrams generated successfully!
 echo Check the following files:
-echo   - water_treatment_process_diagram.png
-echo   - water_treatment_pid.png
-echo   - control_system_architecture.png
-echo   - water_treatment_diagrams.pdf
+echo   - diagrams\water_treatment_process_diagram.png
+echo   - diagrams\water_treatment_pid.png
+echo   - diagrams\control_system_architecture.png
+echo   - diagrams\water_treatment_diagrams.pdf
 echo.
 
 REM Open the PDF file if it exists
-if exist "water_treatment_diagrams.pdf" (
+if exist "diagrams\water_treatment_diagrams.pdf" (
     echo Opening PDF diagrams...
-    start "" "water_treatment_diagrams.pdf"
+    start "" "diagrams\water_treatment_diagrams.pdf"
 )
 
 pause

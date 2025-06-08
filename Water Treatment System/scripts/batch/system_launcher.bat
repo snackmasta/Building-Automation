@@ -61,8 +61,9 @@ goto MAIN_MENU
 :WEB_HMI
 echo.
 echo Opening Web HMI in default browser...
-if exist "web_hmi.html" (
-    start "" "web_hmi.html"
+cd /d "%~dp0..\.."
+if exist "src\gui\web_hmi.html" (
+    start "" "src\gui\web_hmi.html"
 ) else (
     echo ERROR: web_hmi.html not found
     pause
@@ -84,8 +85,9 @@ goto MAIN_MENU
 :DOCUMENTATION
 echo.
 echo Opening System Documentation...
-if exist "README.md" (
-    start "" "README.md"
+cd /d "%~dp0..\.."
+if exist "docs\README.md" (
+    start "" "docs\README.md"
 ) else (
     echo ERROR: README.md not found
     pause
@@ -95,8 +97,9 @@ goto MAIN_MENU
 :CONFIG
 echo.
 echo Opening Configuration File...
-if exist "plc_config.ini" (
-    start notepad "plc_config.ini"
+cd /d "%~dp0..\.."
+if exist "config\plc_config.ini" (
+    start notepad "config\plc_config.ini"
 ) else (
     echo ERROR: plc_config.ini not found
     pause
@@ -106,13 +109,19 @@ goto MAIN_MENU
 :HEALTH_CHECK
 echo.
 echo Running System Health Check...
-python -c "from system_status import SystemStatusMonitor; monitor = SystemStatusMonitor(); health = monitor.check_system_health(); print(f'System Health: {health[\"status\"]} ({health[\"health_score\"]}/100)'); [print(f'  - {issue}') for issue in health['issues']]; input('Press Enter to continue...')"
+cd /d "%~dp0..\.."
+python utils\verification\verify_system.py
+echo.
+pause
 goto MAIN_MENU
 
 :EXPORT_REPORT
 echo.
 echo Exporting System Status Report...
-python -c "from system_status import SystemStatusMonitor; monitor = SystemStatusMonitor(); filepath = monitor.export_status_report(); print(f'Report exported to: {filepath}'); input('Press Enter to continue...')"
+cd /d "%~dp0..\.."
+python utils\final_project_summary.py
+echo.
+pause
 goto MAIN_MENU
 
 :EXIT

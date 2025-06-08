@@ -1,9 +1,9 @@
 @echo off
-REM Water Treatment System - Simulator Launcher
-REM Run the Python-based system simulator
+REM Water Treatment System - Status Monitor Launcher
+REM Run the system status monitoring dashboard
 
 echo ============================================
-echo Water Treatment System - Simulator
+echo Water Treatment System - Status Monitor
 echo ============================================
 echo.
 
@@ -16,25 +16,26 @@ if errorlevel 1 (
     exit /b 1
 )
 
-echo Starting Water Treatment Simulator...
+echo Starting System Status Monitor...
 echo.
 
 REM Install required packages if not present
 echo Checking required packages...
-pip install tkinter matplotlib numpy sqlite3 configparser >nul 2>&1
+pip install psutil sqlite3 configparser >nul 2>&1
 
-REM Start the simulator
-echo Launching Simulator...
-python water_treatment_simulator.py
+REM Start the status monitor with dashboard
+echo Launching Status Dashboard...
+cd /d "%~dp0..\.."
+python src\monitoring\system_status.py --dashboard
 
 if errorlevel 1 (
     echo.
-    echo ERROR: Failed to start Simulator
+    echo ERROR: Failed to start Status Monitor
     echo Check the error messages above
     pause
     exit /b 1
 )
 
 echo.
-echo Simulator closed
+echo Status Monitor closed
 pause
