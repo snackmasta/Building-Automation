@@ -297,10 +297,11 @@ class FinalVerification:
             print(f"\n⚠️  NEEDS ATTENTION - Only {success_rate:.1f}% tests passed")
             print("🛠️  Several issues need to be resolved.")
             status = "NEEDS WORK"
-        
-        # Save detailed report
+          # Save detailed report to organized directory
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        report_file = project_root / f"final_verification_report_{timestamp}.json"
+        reports_dir = project_root / "tests" / "reports" / "final_verification"
+        reports_dir.mkdir(parents=True, exist_ok=True)
+        report_file = reports_dir / f"final_verification_report_{timestamp}.json"
         
         report_data = {
             "timestamp": datetime.now().isoformat(),

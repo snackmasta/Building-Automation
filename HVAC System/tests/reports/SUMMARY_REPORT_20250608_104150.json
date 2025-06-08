@@ -1,0 +1,52 @@
+{
+  "analysis_timestamp": "2025-06-08T10:41:50.880761",
+  "total_reports": 14,
+  "categories": {
+    "final_verification": {
+      "count": 10,
+      "latest_success_rate": 100.0
+    },
+    "restructuring": {
+      "count": 3,
+      "latest_success_rate": 100.0
+    },
+    "archived": {
+      "count": 1,
+      "latest_success_rate": 0
+    }
+  },
+  "latest_results": {
+    "final_verification": {
+      "file": "final_verification_report_20250608_104028.json",
+      "timestamp": "2025-06-08T10:40:28.379146",
+      "success_rate": "100.0%",
+      "status": "COMPLETE SUCCESS",
+      "total_tests": 10,
+      "passed_tests": 10
+    },
+    "restructuring": {
+      "file": "verification_report_restructuring_20250608_102014.json",
+      "timestamp": "2025-06-08T10:20:14.202493",
+      "success": true,
+      "verification_type": "post_restructuring"
+    },
+    "archived": {
+      "file": "verification_report_20250608_094800.json",
+      "timestamp": "2025-06-08T09:48:00.441803",
+      "summary": {}
+    }
+  },
+  "trend_analysis": {
+    "final_verification": {
+      "recent_success_rates": [
+        70.0,
+        70.0,
+        70.0,
+        100.0,
+        100.0
+      ],
+      "average_success_rate": 82.0,
+      "trend": "improving"
+    }
+  }
+}

@@ -169,6 +169,19 @@ class SystemVerification:
                     print(f"  ✗ {check['category']}: {check['name']} - {check['message']}")
         
         return self.results
+    
+    def save_report(self):
+        """Save verification report to organized directory"""
+        reports_dir = self.base_path / "tests" / "reports" / "archived"
+        reports_dir.mkdir(parents=True, exist_ok=True)
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        report_file = reports_dir / f"system_verification_report_{timestamp}.json"
+        
+        with open(report_file, 'w', encoding='utf-8') as f:
+            json.dump(self.results, f, indent=2, ensure_ascii=False)
+        
+        print(f"\nReport saved to: {report_file}")
+        return report_file
 
 def main():
     """Main verification function"""
@@ -177,6 +190,9 @@ def main():
     print(f"Base path: {base_path}")
     verifier = SystemVerification(base_path)
     results = verifier.run_all_checks()
+    
+    # Save report
+    verifier.save_report()
     
     if results['summary']['fail'] > 0:
         sys.exit(1)

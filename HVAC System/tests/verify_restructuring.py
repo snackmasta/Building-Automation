@@ -283,9 +283,10 @@ if __name__ == '__main__':
         'success': success,
         'notes': 'Comprehensive verification after HVAC system restructuring'
     }
-    
-    base_path = Path(__file__).parent.parent
-    report_path = base_path / f'verification_report_restructuring_{datetime.now().strftime("%Y%m%d_%H%M%S")}.json'
+      base_path = Path(__file__).parent.parent
+    reports_dir = base_path / "tests" / "reports" / "restructuring" 
+    reports_dir.mkdir(parents=True, exist_ok=True)
+    report_path = reports_dir / f'verification_report_restructuring_{datetime.now().strftime("%Y%m%d_%H%M%S")}.json'
     
     with open(report_path, 'w') as f:
         json.dump(report, f, indent=2)
