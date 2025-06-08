@@ -14,6 +14,7 @@ set PROJECT_ROOT=%~dp0..\..
 set UTILS_DIR=%PROJECT_ROOT%\utils
 set VERIFICATION_DIR=%UTILS_DIR%\verification
 set REPORTS_DIR=%PROJECT_ROOT%\reports
+set TESTS_DIR=%PROJECT_ROOT%\tests
 set TIMESTAMP=%date:~-4,4%%date:~-7,2%%date:~-10,2%_%time:~0,2%%time:~3,2%%time:~6,2%
 set TIMESTAMP=%TIMESTAMP: =0%
 
@@ -29,44 +30,66 @@ if not exist "%REPORTS_DIR%" (
     echo Created reports directory: %REPORTS_DIR%
 )
 
-echo Step 1: Running System Verification...
-echo ----------------------------------------
-python "%VERIFICATION_DIR%\verify_system.py"
+echo Step 1: Running Unit Tests and System Validation...
+echo -------------------------------------------------
+python "%TESTS_DIR%\test_runner.py"
 if %ERRORLEVEL% NEQ 0 (
-    echo System verification failed with code %ERRORLEVEL%
-    set SYSTEM_VERIFICATION_STATUS=FAILED
+    echo Unit tests and system validation failed with code %ERRORLEVEL%
+    set TEST_STATUS=FAILED
 ) else (
-    echo System verification completed successfully
-    set SYSTEM_VERIFICATION_STATUS=PASSED
-)
-echo.
-
-echo Step 2: Generating Project Summary...
-echo ----------------------------------
-python "%UTILS_DIR%\project_summary.py"
-if %ERRORLEVEL% NEQ 0 (
-    echo Project summary generation failed with code %ERRORLEVEL%
-    set SUMMARY_STATUS=FAILED
-) else (
-    echo Project summary generated successfully
-    set SUMMARY_STATUS=PASSED
+    echo Unit tests and system validation completed successfully
+    set TEST_STATUS=PASSED
 )
 echo.
 
 echo ======================================================
-echo Verification Summary
+echo Final Test Summary
 echo ======================================================
-echo System Verification: %SYSTEM_VERIFICATION_STATUS%
-echo Project Summary: %SUMMARY_STATUS%
+echo Overall Test Status: %TEST_STATUS%
 echo.
-echo Reports saved to: %REPORTS_DIR%
+echo Detailed reports can be found in: %REPORTS_DIR%
+echo and %TESTS_DIR%\test_results.json for unit test specifics.
 echo ======================================================
+
+rem Commenting out the old verification and summary steps as they are now part of test_runner.py
+rem echo Step 1: Running System Verification...
+rem echo ----------------------------------------
+rem python "%VERIFICATION_DIR%\verify_system.py"
+rem if %ERRORLEVEL% NEQ 0 (
+rem     echo System verification failed with code %ERRORLEVEL%
+rem     set SYSTEM_VERIFICATION_STATUS=FAILED
+rem ) else (
+rem     echo System verification completed successfully
+rem     set SYSTEM_VERIFICATION_STATUS=PASSED
+rem )
+rem echo.
+rem
+rem echo Step 2: Generating Project Summary...
+rem echo ----------------------------------
+rem python "%UTILS_DIR%\project_summary.py"
+rem if %ERRORLEVEL% NEQ 0 (
+rem     echo Project summary generation failed with code %ERRORLEVEL%
+rem     set SUMMARY_STATUS=FAILED
+rem ) else (
+rem     echo Project summary generated successfully
+rem     set SUMMARY_STATUS=PASSED
+rem )
+rem echo.
+rem
+rem echo ======================================================
+rem echo Verification Summary
+rem echo ======================================================
+rem echo System Verification: %SYSTEM_VERIFICATION_STATUS%
+rem echo Project Summary: %SUMMARY_STATUS%
+rem echo.
+rem echo Reports saved to: %REPORTS_DIR%
+rem echo ======================================================
 
 rem Open project summary in browser if it was generated successfully
-if "%SUMMARY_STATUS%"=="PASSED" (
-    echo Opening project summary in browser...
-    start "" "%REPORTS_DIR%\project_summary_%TIMESTAMP%.html"
-)
+rem if "%SUMMARY_STATUS%"=="PASSED" (
+rem     echo Opening project summary in browser...
+rem     rem start "" "%REPORTS_DIR%\\project_summary_%TIMESTAMP%.html"
+rem )
 
 echo.
 echo Press any key to exit...

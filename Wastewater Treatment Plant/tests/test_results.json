@@ -1,0 +1,12 @@
+{
+  "total": 17,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "success": 17,
+  "details": {
+    "failures": [],
+    "errors": [],
+    "skipped": []
+  }
+}
