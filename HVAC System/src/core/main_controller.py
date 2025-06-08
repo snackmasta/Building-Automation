@@ -31,6 +31,11 @@ class HVACController:
         self.setup_logging()
         self.logger = logging.getLogger(__name__)
         
+        # Initialize configuration and zones immediately for testing
+        self.load_configuration()
+        self.initialize_zones()
+        self.initialize_equipment()
+        
     def setup_logging(self):
         """Setup logging configuration"""
         log_dir = self.base_path / 'logs'
@@ -157,8 +162,7 @@ class HVACController:
                 
                 # Update system status
                 self.update_system_status()
-                
-                # Control loop delay
+                  # Control loop delay
                 time.sleep(1)
                 
             except KeyboardInterrupt:
@@ -173,19 +177,22 @@ class HVACController:
         """Start the HVAC controller"""
         self.logger.info("Starting HVAC Controller")
         
-        # Load configuration
-        if not self.load_configuration():
-            self.logger.error("Failed to load configuration. Exiting.")
-            return False
+        # Load configuration if not already loaded
+        if self.config is None:
+            if not self.load_configuration():
+                self.logger.error("Failed to load configuration. Exiting.")
+                return False
         
-        # Initialize subsystems
-        if not self.initialize_zones():
-            self.logger.error("Failed to initialize zones. Exiting.")
-            return False
+        # Initialize subsystems if not already initialized
+        if not self.zones:
+            if not self.initialize_zones():
+                self.logger.error("Failed to initialize zones. Exiting.")
+                return False
         
-        if not self.initialize_equipment():
-            self.logger.error("Failed to initialize equipment. Exiting.")
-            return False
+        if not self.equipment_status:
+            if not self.initialize_equipment():
+                self.logger.error("Failed to initialize equipment. Exiting.")
+                return False
         
         # Set running state
         self.running = True

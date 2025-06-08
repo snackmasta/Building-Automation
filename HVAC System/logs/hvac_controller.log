@@ -10,3 +10,29 @@
 2025-06-08 10:15:54,216 - core.main_controller - INFO - Configuration loaded successfully
 2025-06-08 10:15:54,218 - core.main_controller - INFO - Initialized 8 zones
 2025-06-08 10:15:54,218 - core.main_controller - INFO - Equipment initialized successfully
+2025-06-08 10:19:05,632 - core.main_controller - INFO - Configuration loaded successfully
+2025-06-08 10:19:05,636 - core.main_controller - INFO - Configuration loaded successfully
+2025-06-08 10:19:05,637 - core.main_controller - INFO - Initialized 8 zones
+2025-06-08 10:19:05,640 - core.main_controller - INFO - Configuration loaded successfully
+2025-06-08 10:19:05,640 - core.main_controller - INFO - Initialized 8 zones
+2025-06-08 10:19:05,640 - core.main_controller - INFO - Equipment initialized successfully
+2025-06-08 10:19:18,526 - __main__ - INFO - Starting HVAC Controller
+2025-06-08 10:19:18,528 - __main__ - INFO - Configuration loaded successfully
+2025-06-08 10:19:18,528 - __main__ - INFO - Initialized 8 zones
+2025-06-08 10:19:18,528 - __main__ - INFO - Equipment initialized successfully
+2025-06-08 10:19:18,528 - __main__ - INFO - HVAC Controller started successfully
+2025-06-08 10:19:18,529 - __main__ - INFO - Starting control loop
+2025-06-08 10:20:14,186 - core.main_controller - INFO - Configuration loaded successfully
+2025-06-08 10:20:14,191 - core.main_controller - INFO - Configuration loaded successfully
+2025-06-08 10:20:14,192 - core.main_controller - INFO - Initialized 8 zones
+2025-06-08 10:20:14,195 - core.main_controller - INFO - Configuration loaded successfully
+2025-06-08 10:20:14,196 - core.main_controller - INFO - Initialized 8 zones
+2025-06-08 10:20:14,196 - core.main_controller - INFO - Equipment initialized successfully
+2025-06-08 10:26:32,938 - core.main_controller - INFO - Configuration loaded successfully
+2025-06-08 10:26:32,939 - core.main_controller - INFO - Initialized 8 zones
+2025-06-08 10:34:42,290 - __main__ - INFO - Configuration loaded successfully
+2025-06-08 10:34:42,291 - __main__ - INFO - Initialized 8 zones
+2025-06-08 10:34:42,291 - __main__ - INFO - Equipment initialized successfully
+2025-06-08 10:34:42,291 - __main__ - INFO - Starting HVAC Controller
+2025-06-08 10:34:42,291 - __main__ - INFO - HVAC Controller started successfully
+2025-06-08 10:34:42,291 - __main__ - INFO - Starting control loop

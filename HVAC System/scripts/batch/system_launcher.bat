@@ -132,7 +132,7 @@ goto menu
 
 :invalid_choice
 echo.
-echo Invalid choice. Please select 1-7.
+echo Invalid choice. Please select 1-8.
 echo.
 
 :menu

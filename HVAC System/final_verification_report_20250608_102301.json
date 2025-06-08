@@ -1,0 +1,19 @@
+{
+  "timestamp": "2025-06-08T10:23:01.693109",
+  "total_tests": 10,
+  "passed_tests": 5,
+  "success_rate": "50.0%",
+  "test_results": {
+    "Core Module Imports": "FAIL",
+    "Controller Initialization": "FAIL",
+    "Configuration Loading": "FAIL",
+    "Simulator Functionality": "FAIL",
+    "Status Monitor Initialization": "FAIL",
+    "Batch Scripts Syntax": "PASS",
+    "Web HMI Structure": "PASS",
+    "Data Directories": "PASS",
+    "Documentation Completeness": "PASS",
+    "Project Consistency": "PASS"
+  },
+  "summary": "SOME TESTS FAILED"
+}

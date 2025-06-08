@@ -14,6 +14,7 @@ from tkinter import ttk, messagebox
 import threading
 import time
 import json
+import math
 import configparser
 from datetime import datetime
 import matplotlib.pyplot as plt
@@ -647,7 +648,6 @@ class HVACControlPanel:
 
 def main():
     """Main function"""
-    import math
     
     root = tk.Tk()
     app = HVACControlPanel(root)

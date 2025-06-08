@@ -461,6 +461,10 @@ class HVACSimulator:
         # Log data
         self.log_data()
     
+    def run(self, duration_minutes: int = None):
+        """Alias for run_continuous method for compatibility"""
+        return self.run_continuous(duration_minutes)
+    
     def run_continuous(self, duration_minutes: int = None):
         """Run continuous simulation"""
         logger.info("Starting HVAC simulation...")
